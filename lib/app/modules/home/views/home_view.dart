@@ -3,11 +3,10 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 
 import '../../../routes/app_pages.dart';
-import '../controllers/home_controller.dart';
 import 'sections/staggered_glance_section.dart';
 import 'sections/storage_list_section.dart';
 
-class HomeView extends GetView<HomeController> {
+class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
