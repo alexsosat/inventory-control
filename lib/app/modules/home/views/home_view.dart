@@ -3,6 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 
 import '../../../../constants/theme.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 import 'sections/staggered_glance_section.dart';
 import 'sections/storage_list_section.dart';
@@ -46,6 +47,7 @@ class HomeView extends GetView<HomeController> {
             backgroundColor: Colors.blue,
             foregroundColor: Colors.white,
             label: 'Añadir Bodega',
+            onTap: () => Get.toNamed(Routes.STORAGE_ADD),
           ),
           SpeedDialChild(
             child: const Icon(Icons.inventory_rounded),
