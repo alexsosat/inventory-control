@@ -88,11 +88,12 @@ Storage _storageDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Storage();
-  object.address = reader.readStringOrNull(offsets[0]);
-  object.hexColor = reader.readString(offsets[1]);
+  final object = Storage(
+    address: reader.readStringOrNull(offsets[0]),
+    hexColor: reader.readString(offsets[1]),
+    name: reader.readString(offsets[2]),
+  );
   object.id = id;
-  object.name = reader.readString(offsets[2]);
   return object;
 }
 

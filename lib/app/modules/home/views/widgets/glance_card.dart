@@ -1,8 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
+import 'package:inventory_control/utils/color.dart';
 
 import '../../../../../constants/values.dart';
 
@@ -25,7 +24,7 @@ class GlanceCard extends StatelessWidget {
     return ClipRRect(
       borderRadius: AppValues.kRoundedMedium,
       child: Material(
-        color: Get.isDarkMode ? color.darken(20) : color.brighten(70),
+        color: Get.isDarkMode ? color.darken(20) : color.lighten(40),
         child: InkWell(
           splashColor: Colors.white.withOpacity(0.3),
           onTap: () {

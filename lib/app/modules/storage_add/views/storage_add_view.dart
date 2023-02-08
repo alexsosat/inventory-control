@@ -19,6 +19,14 @@ class StorageAddView extends GetView<StorageAddController> {
           child: StorageAddForm(),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (controller.formKey.currentState!.validate()) {
+            controller.saveStorage();
+          }
+        },
+        child: const Icon(Icons.save),
+      ),
     );
   }
 }

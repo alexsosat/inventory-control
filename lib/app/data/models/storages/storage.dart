@@ -8,9 +8,15 @@ part 'storage.g.dart';
 class Storage {
   Id id = Isar.autoIncrement;
 
-  late String name;
+  String name;
   String? address;
-  late String hexColor;
+  String hexColor;
 
   final lotes = IsarLinks<Lote>();
+
+  Storage({
+    required this.name,
+    this.address,
+    required this.hexColor,
+  });
 }
