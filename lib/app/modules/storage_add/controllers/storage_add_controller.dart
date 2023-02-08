@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
-import 'package:inventory_control/app/data/models/storages/storage.dart';
-import 'package:inventory_control/global/overlays/dialog/dialog.dart';
-import 'package:inventory_control/global/overlays/loading_dialog.dart';
-import 'package:inventory_control/services/local_database/call_function.dart';
 
+import '../../../../global/overlays/dialog/dialog.dart';
+import '../../../../services/local_database/call_function.dart';
+import '../../../data/models/storages/storage.dart';
 import '../../../data/providers/storage_provider.dart';
+import '../../home/controllers/storage_list_controller.dart';
 
 class StorageAddController extends GetxController {
   final StorageProvider _provider = StorageProvider();
@@ -31,7 +31,10 @@ class StorageAddController extends GetxController {
       onSuccess: (_) => openDialogWindow(
         title: "Se registro la bodega",
         type: DialogType.success,
-        onConfirm: () => Get.back(),
+        onConfirm: () => {
+          Get.find<StorageListController>().loadData(),
+          Get.back(),
+        },
       ),
     );
   }

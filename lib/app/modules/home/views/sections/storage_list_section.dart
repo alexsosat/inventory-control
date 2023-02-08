@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:get/get.dart';
+import 'package:inventory_control/app/modules/home/controllers/storage_list_controller.dart';
 
 import '../../../../../constants/values.dart';
 import '../widgets/storage_list_item.dart';
@@ -24,36 +27,32 @@ class StorageListSection extends StatelessWidget {
   }
 }
 
-class _StorageList extends StatelessWidget {
+class _StorageList extends GetView<StorageListController> {
   const _StorageList();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: AppValues.kRoundedMedium,
+    return controller.obx(
+      (storages) => Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: AppValues.kRoundedMedium,
+        ),
+        child: Column(
+          children: storages!
+              .map(
+                (storage) => StorageListItem(
+                  title: storage.name,
+                  value: storage.lotes.length.toString(),
+                  color:
+                      colorFromHex(storage.hexColor) ?? Get.theme.primaryColor,
+                ),
+              )
+              .toList(),
+        ),
       ),
-      child: Column(
-        children: [
-          StorageListItem(
-            title: 'Bodega 1',
-            value: '1000',
-            color: Colors.blue,
-          ),
-          StorageListItem(
-            title: 'Bodega 1',
-            value: '1000',
-            color: Colors.blue,
-          ),
-          StorageListItem(
-            title: 'Bodega 1',
-            value: '1000',
-            color: Colors.blue,
-          ),
-        ],
-      ),
+      onEmpty: const Text("Actualmente no tienes bodegas"),
     );
   }
 }
