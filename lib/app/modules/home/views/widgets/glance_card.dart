@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
@@ -19,28 +20,30 @@ class GlanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: color,
-      child: InkWell(
-        onTap: () {},
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: color.brighten(70),
-            borderRadius: AppValues.kRoundedMedium,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _GlanceCardHeader(
-                value: value,
-                icon: icon,
-                color: color,
-              ),
-              const Expanded(child: SizedBox()),
-              _GlanceCardTitle(title: title),
-            ],
+    return ClipRRect(
+      borderRadius: AppValues.kRoundedMedium,
+      child: Material(
+        color: color.brighten(70),
+        child: InkWell(
+          splashColor: Colors.white.withOpacity(0.3),
+          onTap: () {
+            print("object");
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _GlanceCardHeader(
+                  value: value,
+                  icon: icon,
+                  color: color,
+                ),
+                const Expanded(child: SizedBox()),
+                _GlanceCardTitle(title: title),
+              ],
+            ),
           ),
         ),
       ),
@@ -74,8 +77,10 @@ class _GlanceCardHeader extends StatelessWidget {
         ),
         const SizedBox(width: 20),
         Expanded(
-          child: Text(
+          child: AutoSizeText(
             value,
+            maxLines: 1,
+            textAlign: TextAlign.end,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -96,8 +101,9 @@ class _GlanceCardTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return AutoSizeText(
       title,
+      maxLines: 2,
       style: Theme.of(context).textTheme.titleLarge?.copyWith(),
     );
   }
