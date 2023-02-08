@@ -1,9 +1,9 @@
 import 'package:isar/isar.dart';
 
-import '../models/lote/lote.dart';
-import '../models/product/product.dart';
-import '../models/storages/storage.dart';
-import '../models/tag/tags.dart';
+import '../../app/data/models/lote/lote.dart';
+import '../../app/data/models/product/product.dart';
+import '../../app/data/models/storages/storage.dart';
+import '../../app/data/models/tag/tags.dart';
 
 class LocalDBService {
   Future<Isar> initDB() async {

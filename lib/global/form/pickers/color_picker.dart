@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+import '../../../utils/remove_focus.dart';
+
 class ColorPickerField extends StatefulWidget {
   final Function(Color) onColorChanged;
 
@@ -52,6 +54,7 @@ class _ColorPickerFieldState extends State<ColorPickerField> {
       ),
       trailing: const Icon(Icons.chevron_right_rounded),
       onTap: () {
+        removeFocus(context);
         showDialog(
           context: context,
           builder: (BuildContext context) {

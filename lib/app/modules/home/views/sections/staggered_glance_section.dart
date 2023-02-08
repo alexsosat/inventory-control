@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../../../../constants/theme.dart';
+import '../../../../../global/overlays/dialog/dialog.dart';
 import '../widgets/glance_card.dart';
 
 class StaggeredGlanceSection extends StatelessWidget {
@@ -14,7 +15,7 @@ class StaggeredGlanceSection extends StatelessWidget {
       mainAxisSpacing: 20,
       crossAxisSpacing: 30,
       axisDirection: AxisDirection.down,
-      children: const [
+      children: [
         StaggeredGridTile.count(
           crossAxisCellCount: 3,
           mainAxisCellCount: 4,
@@ -23,6 +24,12 @@ class StaggeredGlanceSection extends StatelessWidget {
             value: '2000',
             icon: Icons.inventory_rounded,
             color: AppTheme.blue,
+            onTap: () => openDialogWindow(
+              title: "Prueba",
+              message: "Prueba",
+              type: DialogType.info,
+              onCancel: () {},
+            ),
           ),
         ),
         StaggeredGridTile.count(

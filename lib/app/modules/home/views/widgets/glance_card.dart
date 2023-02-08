@@ -10,6 +10,7 @@ class GlanceCard extends StatelessWidget {
   final String title;
   final String value;
   final IconData icon;
+  final Function()? onTap;
 
   const GlanceCard({
     Key? key,
@@ -17,6 +18,7 @@ class GlanceCard extends StatelessWidget {
     required this.title,
     required this.value,
     required this.icon,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -27,9 +29,7 @@ class GlanceCard extends StatelessWidget {
         color: Get.isDarkMode ? color.darken(20) : color.lighten(40),
         child: InkWell(
           splashColor: Colors.white.withOpacity(0.3),
-          onTap: () {
-            print("object");
-          },
+          onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
