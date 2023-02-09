@@ -123,15 +123,16 @@ Lote _loteDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Lote();
-  object.dateExpiration = reader.readDateTimeOrNull(offsets[0]);
-  object.dateManufacture = reader.readDateTimeOrNull(offsets[1]);
-  object.hexColor = reader.readString(offsets[2]);
+  final object = Lote(
+    dateExpiration: reader.readDateTime(offsets[0]),
+    dateManufacture: reader.readDateTime(offsets[1]),
+    hexColor: reader.readString(offsets[2]),
+    loteUID: reader.readString(offsets[3]),
+    quantity: reader.readString(offsets[4]),
+    status: _LotestatusValueEnumMap[reader.readByteOrNull(offsets[5])] ??
+        LoteStatus.good,
+  );
   object.id = id;
-  object.loteUID = reader.readString(offsets[3]);
-  object.quantity = reader.readString(offsets[4]);
-  object.status = _LotestatusValueEnumMap[reader.readByteOrNull(offsets[5])] ??
-      LoteStatus.good;
   return object;
 }
 
@@ -143,9 +144,9 @@ P _loteDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
@@ -359,24 +360,8 @@ extension LoteQueryWhere on QueryBuilder<Lote, Lote, QWhereClause> {
 }
 
 extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateExpirationIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'dateExpiration',
-      ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateExpirationIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'dateExpiration',
-      ));
-    });
-  }
-
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateExpirationEqualTo(
-      DateTime? value) {
+      DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'dateExpiration',
@@ -386,7 +371,7 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateExpirationGreaterThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -399,7 +384,7 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateExpirationLessThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -412,8 +397,8 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateExpirationBetween(
-    DateTime? lower,
-    DateTime? upper, {
+    DateTime lower,
+    DateTime upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -428,24 +413,8 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'dateManufacture',
-      ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'dateManufacture',
-      ));
-    });
-  }
-
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureEqualTo(
-      DateTime? value) {
+      DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'dateManufacture',
@@ -455,7 +424,7 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureGreaterThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -468,7 +437,7 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureLessThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -481,8 +450,8 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureBetween(
-    DateTime? lower,
-    DateTime? upper, {
+    DateTime lower,
+    DateTime upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1227,13 +1196,13 @@ extension LoteQueryProperty on QueryBuilder<Lote, Lote, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Lote, DateTime?, QQueryOperations> dateExpirationProperty() {
+  QueryBuilder<Lote, DateTime, QQueryOperations> dateExpirationProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dateExpiration');
     });
   }
 
-  QueryBuilder<Lote, DateTime?, QQueryOperations> dateManufactureProperty() {
+  QueryBuilder<Lote, DateTime, QQueryOperations> dateManufactureProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dateManufacture');
     });

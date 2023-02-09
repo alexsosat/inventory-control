@@ -9,12 +9,12 @@ part 'lote.g.dart';
 class Lote {
   Id id = Isar.autoIncrement;
   @Index(unique: true, replace: true)
-  late String loteUID;
+  String loteUID;
 
-  late String hexColor;
-  late String quantity;
-  DateTime? dateManufacture;
-  DateTime? dateExpiration;
+  String hexColor;
+  String quantity;
+  DateTime dateManufacture;
+  DateTime dateExpiration;
   // String? imagePath;
 
   @Backlink(to: "lotes")
@@ -23,7 +23,16 @@ class Lote {
   final product = IsarLink<Product>();
 
   @enumerated
-  late LoteStatus status;
+  LoteStatus status;
+
+  Lote({
+    required this.loteUID,
+    required this.hexColor,
+    required this.quantity,
+    required this.dateManufacture,
+    required this.dateExpiration,
+    this.status = LoteStatus.good,
+  });
 }
 
 enum LoteStatus {
