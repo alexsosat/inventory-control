@@ -52,6 +52,7 @@ class HomeView extends StatelessWidget {
             backgroundColor: Colors.green,
             foregroundColor: Colors.white,
             label: 'Añadir Producto',
+            onTap: () => Get.toNamed(Routes.PRODUCT_ADD),
           ),
         ],
       ),
