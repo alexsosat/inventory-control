@@ -25,6 +25,10 @@ class ProductProvider {
   /// Args:
   ///   product (Product): The product object to be added to the database.
   Future<int> addProduct(Product product) async => isar.writeTxn<int>(
-        () => isar.products.put(product),
+        () async {
+          final productId = await isar.products.put(product);
+          await product.tags.save();
+          return productId;
+        },
       );
 }

@@ -30,7 +30,7 @@ class ProductAddView extends GetView<ProductAddController> {
               title:
                   "¿Deseas registrar el producto ${controller.nameController.text}?",
               type: DialogType.info,
-              // onConfirm: () => controller.saveStorage(),
+              onConfirm: () => controller.saveProduct(),
               onCancel: () {},
             );
           }

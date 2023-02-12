@@ -55,7 +55,7 @@ class _ProductAddFormState extends State<ProductAddForm> {
               ),
               const SizedBox(height: 10),
               TagPicker(
-                onTagsChanged: (_) {},
+                onTagsChanged: (tags) => controller.tags = tags,
               ),
             ],
           ),

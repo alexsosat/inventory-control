@@ -2,6 +2,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/values.dart';
+import '../../../utils/remove_focus.dart';
 
 class BaseBottomSheet<T> extends StatefulWidget {
   final bool isRequired;
@@ -81,6 +82,10 @@ class _BaseBottomSheetState<T> extends State<BaseBottomSheet<T>> {
         if (value != null) {
           widget.onChanged(value);
         }
+      },
+      onBeforePopupOpening: (selectedItem) async {
+        removeFocus(context);
+        return true;
       },
       compareFn: (item1, item2) => item1 == item2,
       validator: (value) {
