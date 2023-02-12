@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 
-import '../tag/tags.dart';
+import '../tag/tag.dart';
 
 part 'product.g.dart';
 
@@ -15,7 +15,7 @@ class Product {
   @enumerated
   late MetricUnit metricUnit;
 
-  final tags = IsarLinks<Tags>();
+  final tags = IsarLinks<Tag>();
 }
 
 enum MetricUnit {

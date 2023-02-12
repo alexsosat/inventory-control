@@ -1,10 +1,10 @@
 import '../models/lote/lote.dart';
 import 'package:isar/isar.dart';
 
-class LotesProvider {
+class LoteProvider {
   late Isar isar;
 
-  LotesProvider() {
+  LoteProvider() {
     if (Isar.getInstance() == null) {
       throw Exception('Isar is not initialized');
     }

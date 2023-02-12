@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 import '../../app/data/models/lote/lote.dart';
 import '../../app/data/models/product/product.dart';
 import '../../app/data/models/storages/storage.dart';
-import '../../app/data/models/tag/tags.dart';
+import '../../app/data/models/tag/tag.dart';
 
 class LocalDBService {
   Future<Isar> initDB() async {
@@ -12,7 +12,7 @@ class LocalDBService {
         [
           StorageSchema,
           LoteSchema,
-          TagsSchema,
+          TagSchema,
           ProductSchema,
         ],
         inspector: true,

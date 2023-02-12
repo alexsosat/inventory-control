@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 
 import '../../../data/models/lote/lote.dart';
-import '../../../data/providers/lotes_provider.dart';
-import '../../../data/providers/products_provider.dart';
+import '../../../data/providers/lote_provider.dart';
+import '../../../data/providers/product_provider.dart';
 
 class HomeController extends GetxController with StateMixin {
   final ProductProvider _productProvider = ProductProvider();
-  final LotesProvider _lotesProvider = LotesProvider();
+  final LoteProvider _lotesProvider = LoteProvider();
 
   int registeredProducts = 0;
   int expiredLotes = 0;

@@ -14,19 +14,27 @@ class StorageAddForm extends StatefulWidget {
 }
 
 class _StorageAddFormState extends State<StorageAddForm> {
+  late StorageAddController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<StorageAddController>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: Get.find<StorageAddController>().formKey,
+      key: controller.formKey,
       child: Column(
         children: [
           TextFormFieldRounded(
-            controller: Get.find<StorageAddController>().nameController,
+            controller: controller.nameController,
             labelText: 'Nombre',
           ),
           const SizedBox(height: 20),
           TextFormFieldRounded(
-            controller: Get.find<StorageAddController>().addressController,
+            controller: controller.addressController,
             isRequired: false,
             labelText: 'Dirección',
             maxLines: 5,
@@ -37,8 +45,7 @@ class _StorageAddFormState extends State<StorageAddForm> {
           RoundedFormCard(
             children: [
               ColorPickerField(
-                onColorChanged: (color) =>
-                    Get.find<StorageAddController>().color = color,
+                onColorChanged: (color) => controller.color = color,
               ),
             ],
           ),

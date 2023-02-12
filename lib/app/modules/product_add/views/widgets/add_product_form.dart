@@ -1,11 +1,10 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../data/models/product/product.dart';
-import '../../../../../global/form/bottomsheets/metric_unit_bottomsheet.dart';
 
 import '../../../../../global/card/rounded_form_card.dart';
+import '../../../../../global/form/bottomsheets/metric_unit_bottomsheet.dart';
 import '../../../../../global/form/pickers/color_picker.dart';
+import '../../../../../global/form/pickers/tag_picker.dart';
 import '../../../../../global/form/text_form_field_rounded.dart';
 import '../../controllers/product_add_controller.dart';
 
@@ -17,23 +16,31 @@ class ProductAddForm extends StatefulWidget {
 }
 
 class _ProductAddFormState extends State<ProductAddForm> {
+  late ProductAddController controller;
+
+  @override
+  void initState() {
+    controller = Get.find<ProductAddController>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: Get.find<ProductAddController>().formKey,
+      key: controller.formKey,
       child: Column(
         children: [
           TextFormFieldRounded(
-            controller: Get.find<ProductAddController>().nameController,
+            controller: controller.nameController,
             labelText: 'Nombre',
           ),
           const SizedBox(height: 20),
           MetricUnitBottomSheet(
-            onChanged: (value) {},
+            onChanged: (value) => controller.metricUnit = value,
           ),
           const SizedBox(height: 20),
           TextFormFieldRounded(
-            controller: Get.find<ProductAddController>().descriptionController,
+            controller: controller.descriptionController,
             isRequired: false,
             labelText: 'Descripción',
             maxLines: 5,
@@ -44,8 +51,11 @@ class _ProductAddFormState extends State<ProductAddForm> {
           RoundedFormCard(
             children: [
               ColorPickerField(
-                onColorChanged: (color) =>
-                    Get.find<ProductAddController>().color = color,
+                onColorChanged: (color) => controller.color = color,
+              ),
+              const SizedBox(height: 10),
+              TagPicker(
+                onTagsChanged: (_) {},
               ),
             ],
           ),

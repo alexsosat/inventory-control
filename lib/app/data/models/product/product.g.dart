@@ -49,7 +49,7 @@ const ProductSchema = CollectionSchema(
     r'tags': LinkSchema(
       id: -3671732819487995644,
       name: r'tags',
-      target: r'Tags',
+      target: r'Tag',
       single: false,
     )
   },
@@ -147,7 +147,7 @@ List<IsarLinkBase<dynamic>> _productGetLinks(Product object) {
 
 void _productAttach(IsarCollection<dynamic> col, Id id, Product object) {
   object.id = id;
-  object.tags.attach(col, col.isar.collection<Tags>(), r'tags', id);
+  object.tags.attach(col, col.isar.collection<Tag>(), r'tags', id);
 }
 
 extension ProductQueryWhereSort on QueryBuilder<Product, Product, QWhere> {
@@ -730,7 +730,7 @@ extension ProductQueryObject
 extension ProductQueryLinks
     on QueryBuilder<Product, Product, QFilterCondition> {
   QueryBuilder<Product, Product, QAfterFilterCondition> tags(
-      FilterQuery<Tags> q) {
+      FilterQuery<Tag> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'tags');
     });

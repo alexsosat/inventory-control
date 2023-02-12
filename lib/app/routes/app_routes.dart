@@ -6,6 +6,8 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const STORAGE_ADD = _Paths.STORAGE_ADD;
   static const PRODUCT_ADD = _Paths.PRODUCT_ADD;
+  static const TAG_PICKER = _Paths.TAG_PICKER;
+  static const TAG_ADD = _Paths.TAG_ADD;
 }
 
 abstract class _Paths {
@@ -13,4 +15,6 @@ abstract class _Paths {
   static const HOME = '/home';
   static const STORAGE_ADD = '/storage-add';
   static const PRODUCT_ADD = '/product-add';
+  static const TAG_PICKER = '/tag-picker';
+  static const TAG_ADD = '/tag-add';
 }
