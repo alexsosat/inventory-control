@@ -16,6 +16,8 @@ class TagPickerList extends GetView<TagPickerController> {
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       itemBuilder: (context, i) => TagCheckBoxTile(
         tags[i],
+        initialValue:
+            Get.find<TagPickerController>().selectedTags.contains(tags[i]),
         onChanged: (value) {
           if (value) {
             controller.selectedTags.add(tags[i]);

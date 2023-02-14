@@ -6,6 +6,8 @@ import '../../../data/providers/tag_provider.dart';
 class TagPickerController extends GetxController with StateMixin<List<Tag>> {
   final _provider = TagProvider();
 
+  TagPickerController(this.selectedTags);
+
   List<Tag> selectedTags = List.empty(growable: true);
 
   @override

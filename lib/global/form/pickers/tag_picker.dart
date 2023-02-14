@@ -6,9 +6,11 @@ import '../../../app/routes/app_pages.dart';
 import '../../../utils/remove_focus.dart';
 
 class TagPicker extends StatefulWidget {
+  final List<Tag>? selectedTags;
   final Function(List<Tag> tags) onTagsChanged;
   const TagPicker({
     required this.onTagsChanged,
+    this.selectedTags,
     super.key,
   });
 
@@ -17,7 +19,13 @@ class TagPicker extends StatefulWidget {
 }
 
 class _TagPickerState extends State<TagPicker> {
-  List<Tag> _selectedTags = [];
+  late List<Tag> _selectedTags;
+
+  @override
+  void initState() {
+    _selectedTags = widget.selectedTags ?? [];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +64,11 @@ class _TagPickerState extends State<TagPicker> {
       onTap: () async {
         removeFocus(context);
 
-        ///TODO: Add selected tags as an argument to show in tags picker
-        final tags = await Get.toNamed(Routes.TAG_PICKER) ?? [];
+        final tags = await Get.toNamed(
+              Routes.TAG_PICKER,
+              arguments: _selectedTags,
+            ) ??
+            [];
         _selectedTags = tags as List<Tag>;
 
         widget.onTagsChanged(_selectedTags);

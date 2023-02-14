@@ -8,10 +8,12 @@ import '../../../../data/models/tag/tag.dart';
 class TagCheckBoxTile extends StatefulWidget {
   final Tag tag;
   final Function(bool value) onChanged;
+  final bool initialValue;
   const TagCheckBoxTile(
     this.tag, {
     super.key,
     required this.onChanged,
+    this.initialValue = false,
   });
 
   @override
@@ -20,6 +22,12 @@ class TagCheckBoxTile extends StatefulWidget {
 
 class _TagCheckBoxTileState extends State<TagCheckBoxTile> {
   bool _value = false;
+
+  @override
+  void initState() {
+    _value = widget.initialValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
