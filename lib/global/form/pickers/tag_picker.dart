@@ -65,7 +65,7 @@ class _TagPickerState extends State<TagPicker> {
         removeFocus(context);
 
         final tags = await Get.toNamed(
-              Routes.TAG_PICKER,
+              Routes.TAG_LIST,
               arguments: _selectedTags,
             ) ??
             [];

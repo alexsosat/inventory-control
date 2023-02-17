@@ -12,8 +12,8 @@ class Lote {
   String loteUID;
 
   String hexColor;
-  String quantity;
-  DateTime dateManufacture;
+  double quantity;
+  DateTime? dateManufacture;
   DateTime dateExpiration;
   // String? imagePath;
 
@@ -29,7 +29,7 @@ class Lote {
     required this.loteUID,
     required this.hexColor,
     required this.quantity,
-    required this.dateManufacture,
+    this.dateManufacture,
     required this.dateExpiration,
     this.status = LoteStatus.good,
   });

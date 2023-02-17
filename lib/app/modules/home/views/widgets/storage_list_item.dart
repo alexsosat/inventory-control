@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:get/get.dart';
+
+import '../../../../data/models/storages/storage.dart';
+import '../../../../routes/app_pages.dart';
 
 class StorageListItem extends StatelessWidget {
-  final String title;
-  final String value;
-  final Color color;
+  final Storage storage;
 
-  const StorageListItem({
+  const StorageListItem(
+    this.storage, {
     Key? key,
-    required this.title,
-    required this.value,
-    required this.color,
   }) : super(key: key);
 
   @override
@@ -20,7 +21,7 @@ class StorageListItem extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: color,
+            color: colorFromHex(storage.hexColor),
             shape: BoxShape.circle,
           ),
           child: const Icon(
@@ -29,7 +30,7 @@ class StorageListItem extends StatelessWidget {
           ),
         ),
         title: Text(
-          title,
+          storage.name,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -38,12 +39,19 @@ class StorageListItem extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              value,
+              storage.lotes.length.toString(),
               style: Theme.of(context).textTheme.titleMedium?.copyWith(),
             ),
             const SizedBox(width: 10),
             const Icon(Icons.arrow_forward_ios),
           ],
+        ),
+        onTap: () => Get.toNamed(
+          Routes.LOTE_LIST,
+          arguments: {
+            'title': storage.name,
+            'storage': storage,
+          },
         ),
       ),
     );

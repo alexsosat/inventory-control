@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
 import 'package:inventory_control/app/modules/home/controllers/storage_list_controller.dart';
 
@@ -43,10 +42,7 @@ class _StorageList extends GetView<StorageListController> {
           children: storages!
               .map(
                 (storage) => StorageListItem(
-                  title: storage.name,
-                  value: storage.lotes.length.toString(),
-                  color:
-                      colorFromHex(storage.hexColor) ?? Get.theme.primaryColor,
+                  storage,
                 ),
               )
               .toList(),

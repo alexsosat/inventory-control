@@ -40,7 +40,7 @@ const LoteSchema = CollectionSchema(
     r'quantity': PropertySchema(
       id: 4,
       name: r'quantity',
-      type: IsarType.string,
+      type: IsarType.double,
     ),
     r'status': PropertySchema(
       id: 5,
@@ -99,7 +99,6 @@ int _loteEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.hexColor.length * 3;
   bytesCount += 3 + object.loteUID.length * 3;
-  bytesCount += 3 + object.quantity.length * 3;
   return bytesCount;
 }
 
@@ -113,7 +112,7 @@ void _loteSerialize(
   writer.writeDateTime(offsets[1], object.dateManufacture);
   writer.writeString(offsets[2], object.hexColor);
   writer.writeString(offsets[3], object.loteUID);
-  writer.writeString(offsets[4], object.quantity);
+  writer.writeDouble(offsets[4], object.quantity);
   writer.writeByte(offsets[5], object.status.index);
 }
 
@@ -125,10 +124,10 @@ Lote _loteDeserialize(
 ) {
   final object = Lote(
     dateExpiration: reader.readDateTime(offsets[0]),
-    dateManufacture: reader.readDateTime(offsets[1]),
+    dateManufacture: reader.readDateTimeOrNull(offsets[1]),
     hexColor: reader.readString(offsets[2]),
     loteUID: reader.readString(offsets[3]),
-    quantity: reader.readString(offsets[4]),
+    quantity: reader.readDouble(offsets[4]),
     status: _LotestatusValueEnumMap[reader.readByteOrNull(offsets[5])] ??
         LoteStatus.good,
   );
@@ -146,13 +145,13 @@ P _loteDeserializeProp<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 5:
       return (_LotestatusValueEnumMap[reader.readByteOrNull(offset)] ??
           LoteStatus.good) as P;
@@ -413,8 +412,24 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'dateManufacture',
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'dateManufacture',
+      ));
+    });
+  }
+
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureEqualTo(
-      DateTime value) {
+      DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'dateManufacture',
@@ -424,7 +439,7 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureGreaterThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -437,7 +452,7 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureLessThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -450,8 +465,8 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureBetween(
-    DateTime lower,
-    DateTime upper, {
+    DateTime? lower,
+    DateTime? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -776,54 +791,54 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityEqualTo(
-    String value, {
-    bool caseSensitive = true,
+    double value, {
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'quantity',
         value: value,
-        caseSensitive: caseSensitive,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityGreaterThan(
-    String value, {
+    double value, {
     bool include = false,
-    bool caseSensitive = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'quantity',
         value: value,
-        caseSensitive: caseSensitive,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityLessThan(
-    String value, {
+    double value, {
     bool include = false,
-    bool caseSensitive = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'quantity',
         value: value,
-        caseSensitive: caseSensitive,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityBetween(
-    String lower,
-    String upper, {
+    double lower,
+    double upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -832,74 +847,7 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'quantity',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'quantity',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'quantity',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'quantity',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'quantity',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'quantity',
-        value: '',
+        epsilon: epsilon,
       ));
     });
   }
@@ -1175,10 +1123,9 @@ extension LoteQueryWhereDistinct on QueryBuilder<Lote, Lote, QDistinct> {
     });
   }
 
-  QueryBuilder<Lote, Lote, QDistinct> distinctByQuantity(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Lote, Lote, QDistinct> distinctByQuantity() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'quantity', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'quantity');
     });
   }
 
@@ -1202,7 +1149,7 @@ extension LoteQueryProperty on QueryBuilder<Lote, Lote, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Lote, DateTime, QQueryOperations> dateManufactureProperty() {
+  QueryBuilder<Lote, DateTime?, QQueryOperations> dateManufactureProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dateManufacture');
     });
@@ -1220,7 +1167,7 @@ extension LoteQueryProperty on QueryBuilder<Lote, Lote, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Lote, String, QQueryOperations> quantityProperty() {
+  QueryBuilder<Lote, double, QQueryOperations> quantityProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'quantity');
     });

@@ -9,13 +9,21 @@ class BaseBottomSheet<T> extends StatefulWidget {
   final Function(T) onChanged;
   final Function(T)? validator;
   final List<T> items;
+  final Future<List<T>> Function(String)? asyncItems;
+  final String Function(T)? itemAsString;
+  final IconData? leadingIcon;
   final String labelText;
+  final T? initialItem;
 
   const BaseBottomSheet({
     required this.onChanged,
     required this.items,
     required this.labelText,
+    this.itemAsString,
+    this.initialItem,
+    this.asyncItems,
     this.validator,
+    this.leadingIcon,
     this.isRequired = true,
     super.key,
   });
@@ -28,10 +36,26 @@ class _BaseBottomSheetState<T> extends State<BaseBottomSheet<T>> {
   @override
   Widget build(BuildContext context) {
     return DropdownSearch<T>(
-      popupProps: const PopupProps.bottomSheet(
+      popupProps: PopupProps.bottomSheet(
         showSelectedItems: true,
+        itemBuilder: (context, item, isSelected) => ListTile(
+          title: Text(
+            widget.itemAsString?.call(item) ?? item.toString(),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: isSelected
+                      ? Theme.of(context).primaryColor
+                      : Theme.of(context).textTheme.titleMedium?.color,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                ),
+          ),
+          leading: widget.leadingIcon != null ? Icon(widget.leadingIcon) : null,
+          selected: isSelected,
+        ),
       ),
+      selectedItem: widget.initialItem,
       items: widget.items,
+      asyncItems: widget.asyncItems,
+      itemAsString: widget.itemAsString,
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
           labelText: widget.labelText,

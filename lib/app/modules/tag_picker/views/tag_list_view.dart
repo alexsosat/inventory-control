@@ -5,10 +5,10 @@ import '../../../data/models/tag/tag.dart';
 import 'widgets/tag_picker_list.dart';
 
 import '../../../routes/app_pages.dart';
-import '../controllers/tag_picker_controller.dart';
+import '../controllers/tag_list_controller.dart';
 
-class TagPickerView extends GetView<TagPickerController> {
-  const TagPickerView({Key? key}) : super(key: key);
+class TagListView extends GetView<TagListController> {
+  const TagListView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

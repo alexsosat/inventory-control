@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_iconpicker/Serialization/iconDataSerialization.dart';
 import 'package:get/get.dart';
 import '../../../../global/overlays/dialog/dialog.dart';
 import '../../../data/models/tag/tag.dart';
 import '../../../data/providers/tag_provider.dart';
 
 import '../../../../services/local_database/call_function.dart';
-import '../../tag_picker/controllers/tag_picker_controller.dart';
+import '../../tag_picker/controllers/tag_list_controller.dart';
 
 class TagAddController extends GetxController {
   final TagProvider _provider = TagProvider();
@@ -34,7 +33,7 @@ class TagAddController extends GetxController {
         title: "Se registro la etiqueta",
         type: DialogType.success,
         onConfirm: () => {
-          Get.find<TagPickerController>().loadTags(),
+          Get.find<TagListController>().loadTags(),
           Get.back(),
         },
       ),

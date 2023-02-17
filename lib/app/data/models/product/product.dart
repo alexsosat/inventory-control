@@ -25,6 +25,31 @@ class Product {
   });
 
   final tags = IsarLinks<Tag>();
+
+  @override
+  String toString() {
+    return 'Product(id: $id, name: $name, description: $description, hexColor: $hexColor, metricUnit: $metricUnit)';
+  }
+
+  @override
+  bool operator ==(covariant Product other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.name == name &&
+        other.description == description &&
+        other.hexColor == hexColor &&
+        other.metricUnit == metricUnit;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        description.hashCode ^
+        hexColor.hashCode ^
+        metricUnit.hashCode;
+  }
 }
 
 enum MetricUnit {

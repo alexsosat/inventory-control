@@ -33,7 +33,6 @@ class ProductAddController extends GetxController {
         );
 
         for (Tag tag in tags) {
-          print(tag.name);
           product.tags.add(tag);
         }
 

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../data/models/tag/tag.dart';
-import '../../controllers/tag_picker_controller.dart';
+import '../../controllers/tag_list_controller.dart';
 import 'tag_checkbox_tile.dart';
 
-class TagPickerList extends GetView<TagPickerController> {
+class TagPickerList extends GetView<TagListController> {
   final List<Tag> tags;
   const TagPickerList(this.tags, {super.key});
 
@@ -17,7 +17,7 @@ class TagPickerList extends GetView<TagPickerController> {
       itemBuilder: (context, i) => TagCheckBoxTile(
         tags[i],
         initialValue:
-            Get.find<TagPickerController>().selectedTags.contains(tags[i]),
+            Get.find<TagListController>().selectedTags.contains(tags[i]),
         onChanged: (value) {
           if (value) {
             controller.selectedTags.add(tags[i]);

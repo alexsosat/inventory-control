@@ -11,29 +11,26 @@ class LoteProvider {
     isar = Isar.getInstance()!;
   }
 
-  /// Get the number of lots that are good.
-  Future<int> getGoodLotesCount() async =>
-      await isar.lotes.filter().statusEqualTo(LoteStatus.good).count();
+  /// Get all the lots.
+  Future<List<Lote>> getAllLotes() async => await isar.lotes.where().findAll();
 
-  /// Get the number of lots that are expired.
-  Future<int> getExpiredLotesCount() async =>
-      await isar.lotes.filter().statusEqualTo(LoteStatus.expired).count();
+  /// Get Lotes by status
+  Future<List<Lote>> getLotesByStatus(LoteStatus status) async =>
+      await isar.lotes.filter().statusEqualTo(status).findAll();
 
-  /// Get the number of lots that are about to expire.
-  Future<int> getToExpireLotesCount() async =>
-      await isar.lotes.filter().statusEqualTo(LoteStatus.toExpire).count();
+  /// Get the number of lots that are status.
+  Future<int> getLotesByStatusCount(LoteStatus status) async =>
+      await isar.lotes.filter().statusEqualTo(status).count();
 
-  /// Get all the lots that are in good status.
-  Future<List<Lote>> getGoodLotes() async =>
-      await isar.lotes.filter().statusEqualTo(LoteStatus.good).findAll();
-
-  /// Get all the lots that are in expired status.
-  Future<List<Lote>> getExpiredLotes() async =>
-      await isar.lotes.filter().statusEqualTo(LoteStatus.expired).findAll();
-
-  /// Get all the lots that are in about to expire status.
-  Future<List<Lote>> getToExpireLotes() async =>
-      await isar.lotes.filter().statusEqualTo(LoteStatus.toExpire).findAll();
+  /// Adds a Lote to the database
+  Future<int> addLote(Lote lote) async => isar.writeTxn<int>(
+        () async {
+          final productId = await isar.lotes.put(lote);
+          await lote.product.save();
+          await lote.storage.save();
+          return productId;
+        },
+      );
 
   Future moveLoteToCloseToExpired(Lote lote) async {
     lote.status = LoteStatus.toExpire;

@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import '../../../data/models/tag/tag.dart';
 import '../../../data/providers/tag_provider.dart';
 
-class TagPickerController extends GetxController with StateMixin<List<Tag>> {
+class TagListController extends GetxController with StateMixin<List<Tag>> {
   final _provider = TagProvider();
 
-  TagPickerController(this.selectedTags);
+  TagListController(this.selectedTags);
 
   List<Tag> selectedTags = List.empty(growable: true);
 

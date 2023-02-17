@@ -20,7 +20,7 @@ class ProductProvider {
   ///Returns the number of products in the database
   Future<int> getProductCount() async => isar.products.count();
 
-  /// It adds a product to the database.
+  /// Adds a product to the database.
   ///
   /// Args:
   ///   product (Product): The product object to be added to the database.
