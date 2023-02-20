@@ -36,6 +36,7 @@ class LoteAddController extends GetxController {
           loteUID: loteUIDController.text.trim(),
           dateExpiration: expirationDate!,
           dateManufacture: manufacturedDate!,
+          dateCreated: DateTime.now(),
           hexColor: colorToHex(color),
           quantity: double.parse(quantityController.text),
           status: getLoteStatus(expirationDate!),

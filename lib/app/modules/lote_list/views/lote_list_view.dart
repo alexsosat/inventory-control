@@ -17,7 +17,7 @@ class LoteListView extends GetView<LoteListController> {
         title: Text(controller.pageTitle.capitalize!),
         centerTitle: false,
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(150),
+          preferredSize: const Size.fromHeight(80),
           child: LoteSearchSection(
             storageColor: controller.storage != null
                 ? colorFromHex(controller.storage!.hexColor)

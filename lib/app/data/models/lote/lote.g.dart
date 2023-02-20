@@ -17,33 +17,43 @@ const LoteSchema = CollectionSchema(
   name: r'Lote',
   id: -5757768337345954602,
   properties: {
-    r'dateExpiration': PropertySchema(
+    r'dateCreated': PropertySchema(
       id: 0,
+      name: r'dateCreated',
+      type: IsarType.dateTime,
+    ),
+    r'dateExpiration': PropertySchema(
+      id: 1,
       name: r'dateExpiration',
       type: IsarType.dateTime,
     ),
     r'dateManufacture': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'dateManufacture',
       type: IsarType.dateTime,
     ),
+    r'hashCode': PropertySchema(
+      id: 3,
+      name: r'hashCode',
+      type: IsarType.long,
+    ),
     r'hexColor': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'hexColor',
       type: IsarType.string,
     ),
     r'loteUID': PropertySchema(
-      id: 3,
+      id: 5,
       name: r'loteUID',
       type: IsarType.string,
     ),
     r'quantity': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'quantity',
       type: IsarType.double,
     ),
     r'status': PropertySchema(
-      id: 5,
+      id: 7,
       name: r'status',
       type: IsarType.byte,
       enumMap: _LotestatusEnumValueMap,
@@ -108,12 +118,14 @@ void _loteSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.dateExpiration);
-  writer.writeDateTime(offsets[1], object.dateManufacture);
-  writer.writeString(offsets[2], object.hexColor);
-  writer.writeString(offsets[3], object.loteUID);
-  writer.writeDouble(offsets[4], object.quantity);
-  writer.writeByte(offsets[5], object.status.index);
+  writer.writeDateTime(offsets[0], object.dateCreated);
+  writer.writeDateTime(offsets[1], object.dateExpiration);
+  writer.writeDateTime(offsets[2], object.dateManufacture);
+  writer.writeLong(offsets[3], object.hashCode);
+  writer.writeString(offsets[4], object.hexColor);
+  writer.writeString(offsets[5], object.loteUID);
+  writer.writeDouble(offsets[6], object.quantity);
+  writer.writeByte(offsets[7], object.status.index);
 }
 
 Lote _loteDeserialize(
@@ -123,12 +135,13 @@ Lote _loteDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Lote(
-    dateExpiration: reader.readDateTime(offsets[0]),
-    dateManufacture: reader.readDateTimeOrNull(offsets[1]),
-    hexColor: reader.readString(offsets[2]),
-    loteUID: reader.readString(offsets[3]),
-    quantity: reader.readDouble(offsets[4]),
-    status: _LotestatusValueEnumMap[reader.readByteOrNull(offsets[5])] ??
+    dateCreated: reader.readDateTime(offsets[0]),
+    dateExpiration: reader.readDateTime(offsets[1]),
+    dateManufacture: reader.readDateTime(offsets[2]),
+    hexColor: reader.readString(offsets[4]),
+    loteUID: reader.readString(offsets[5]),
+    quantity: reader.readDouble(offsets[6]),
+    status: _LotestatusValueEnumMap[reader.readByteOrNull(offsets[7])] ??
         LoteStatus.good,
   );
   object.id = id;
@@ -145,14 +158,18 @@ P _loteDeserializeProp<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 4:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readDouble(offset)) as P;
+    case 7:
       return (_LotestatusValueEnumMap[reader.readByteOrNull(offset)] ??
           LoteStatus.good) as P;
     default:
@@ -359,6 +376,59 @@ extension LoteQueryWhere on QueryBuilder<Lote, Lote, QWhereClause> {
 }
 
 extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateCreatedEqualTo(
+      DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dateCreated',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateCreatedGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dateCreated',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateCreatedLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dateCreated',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateCreatedBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dateCreated',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateExpirationEqualTo(
       DateTime value) {
     return QueryBuilder.apply(this, (query) {
@@ -412,24 +482,8 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'dateManufacture',
-      ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'dateManufacture',
-      ));
-    });
-  }
-
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureEqualTo(
-      DateTime? value) {
+      DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'dateManufacture',
@@ -439,7 +493,7 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureGreaterThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -452,7 +506,7 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureLessThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -465,14 +519,66 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
   }
 
   QueryBuilder<Lote, Lote, QAfterFilterCondition> dateManufactureBetween(
-    DateTime? lower,
-    DateTime? upper, {
+    DateTime lower,
+    DateTime upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'dateManufacture',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> hashCodeEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> hashCodeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> hashCodeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> hashCodeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'hashCode',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -937,6 +1043,18 @@ extension LoteQueryLinks on QueryBuilder<Lote, Lote, QFilterCondition> {
 }
 
 extension LoteQuerySortBy on QueryBuilder<Lote, Lote, QSortBy> {
+  QueryBuilder<Lote, Lote, QAfterSortBy> sortByDateCreated() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateCreated', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterSortBy> sortByDateCreatedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateCreated', Sort.desc);
+    });
+  }
+
   QueryBuilder<Lote, Lote, QAfterSortBy> sortByDateExpiration() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dateExpiration', Sort.asc);
@@ -958,6 +1076,18 @@ extension LoteQuerySortBy on QueryBuilder<Lote, Lote, QSortBy> {
   QueryBuilder<Lote, Lote, QAfterSortBy> sortByDateManufactureDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dateManufacture', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterSortBy> sortByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterSortBy> sortByHashCodeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.desc);
     });
   }
 
@@ -1011,6 +1141,18 @@ extension LoteQuerySortBy on QueryBuilder<Lote, Lote, QSortBy> {
 }
 
 extension LoteQuerySortThenBy on QueryBuilder<Lote, Lote, QSortThenBy> {
+  QueryBuilder<Lote, Lote, QAfterSortBy> thenByDateCreated() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateCreated', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterSortBy> thenByDateCreatedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dateCreated', Sort.desc);
+    });
+  }
+
   QueryBuilder<Lote, Lote, QAfterSortBy> thenByDateExpiration() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dateExpiration', Sort.asc);
@@ -1032,6 +1174,18 @@ extension LoteQuerySortThenBy on QueryBuilder<Lote, Lote, QSortThenBy> {
   QueryBuilder<Lote, Lote, QAfterSortBy> thenByDateManufactureDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dateManufacture', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterSortBy> thenByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterSortBy> thenByHashCodeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.desc);
     });
   }
 
@@ -1097,6 +1251,12 @@ extension LoteQuerySortThenBy on QueryBuilder<Lote, Lote, QSortThenBy> {
 }
 
 extension LoteQueryWhereDistinct on QueryBuilder<Lote, Lote, QDistinct> {
+  QueryBuilder<Lote, Lote, QDistinct> distinctByDateCreated() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dateCreated');
+    });
+  }
+
   QueryBuilder<Lote, Lote, QDistinct> distinctByDateExpiration() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'dateExpiration');
@@ -1106,6 +1266,12 @@ extension LoteQueryWhereDistinct on QueryBuilder<Lote, Lote, QDistinct> {
   QueryBuilder<Lote, Lote, QDistinct> distinctByDateManufacture() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'dateManufacture');
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QDistinct> distinctByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'hashCode');
     });
   }
 
@@ -1143,15 +1309,27 @@ extension LoteQueryProperty on QueryBuilder<Lote, Lote, QQueryProperty> {
     });
   }
 
+  QueryBuilder<Lote, DateTime, QQueryOperations> dateCreatedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dateCreated');
+    });
+  }
+
   QueryBuilder<Lote, DateTime, QQueryOperations> dateExpirationProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dateExpiration');
     });
   }
 
-  QueryBuilder<Lote, DateTime?, QQueryOperations> dateManufactureProperty() {
+  QueryBuilder<Lote, DateTime, QQueryOperations> dateManufactureProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dateManufacture');
+    });
+  }
+
+  QueryBuilder<Lote, int, QQueryOperations> hashCodeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'hashCode');
     });
   }
 

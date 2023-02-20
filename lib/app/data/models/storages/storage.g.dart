@@ -22,13 +22,18 @@ const StorageSchema = CollectionSchema(
       name: r'address',
       type: IsarType.string,
     ),
-    r'hexColor': PropertySchema(
+    r'hashCode': PropertySchema(
       id: 1,
+      name: r'hashCode',
+      type: IsarType.long,
+    ),
+    r'hexColor': PropertySchema(
+      id: 2,
       name: r'hexColor',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'name',
       type: IsarType.string,
     )
@@ -78,8 +83,9 @@ void _storageSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.address);
-  writer.writeString(offsets[1], object.hexColor);
-  writer.writeString(offsets[2], object.name);
+  writer.writeLong(offsets[1], object.hashCode);
+  writer.writeString(offsets[2], object.hexColor);
+  writer.writeString(offsets[3], object.name);
 }
 
 Storage _storageDeserialize(
@@ -90,8 +96,8 @@ Storage _storageDeserialize(
 ) {
   final object = Storage(
     address: reader.readStringOrNull(offsets[0]),
-    hexColor: reader.readString(offsets[1]),
-    name: reader.readString(offsets[2]),
+    hexColor: reader.readString(offsets[2]),
+    name: reader.readString(offsets[3]),
   );
   object.id = id;
   return object;
@@ -107,8 +113,10 @@ P _storageDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -347,6 +355,59 @@ extension StorageQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'address',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Storage, Storage, QAfterFilterCondition> hashCodeEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Storage, Storage, QAfterFilterCondition> hashCodeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Storage, Storage, QAfterFilterCondition> hashCodeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Storage, Storage, QAfterFilterCondition> hashCodeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'hashCode',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -739,6 +800,18 @@ extension StorageQuerySortBy on QueryBuilder<Storage, Storage, QSortBy> {
     });
   }
 
+  QueryBuilder<Storage, Storage, QAfterSortBy> sortByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Storage, Storage, QAfterSortBy> sortByHashCodeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.desc);
+    });
+  }
+
   QueryBuilder<Storage, Storage, QAfterSortBy> sortByHexColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hexColor', Sort.asc);
@@ -775,6 +848,18 @@ extension StorageQuerySortThenBy
   QueryBuilder<Storage, Storage, QAfterSortBy> thenByAddressDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'address', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Storage, Storage, QAfterSortBy> thenByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Storage, Storage, QAfterSortBy> thenByHashCodeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.desc);
     });
   }
 
@@ -824,6 +909,12 @@ extension StorageQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Storage, Storage, QDistinct> distinctByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'hashCode');
+    });
+  }
+
   QueryBuilder<Storage, Storage, QDistinct> distinctByHexColor(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -850,6 +941,12 @@ extension StorageQueryProperty
   QueryBuilder<Storage, String?, QQueryOperations> addressProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'address');
+    });
+  }
+
+  QueryBuilder<Storage, int, QQueryOperations> hashCodeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'hashCode');
     });
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'filter_dialog.dart';
 
-import '../../../../../global/buttons/tag_buttons/tag_buttons.dart';
 import '../../../../../global/form/search_field.dart';
 
 class LoteSearchSection extends StatelessWidget {
@@ -12,22 +13,33 @@ class LoteSearchSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: SearchField(
-            controller: TextEditingController(),
-            label: "Buscador",
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20.0,
+        vertical: 10,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: SearchField(
+              controller: TextEditingController(),
+              label: "Buscador",
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        TagFilterSection(
-          selectedTagColor: storageColor ?? Theme.of(context).primaryColor,
-          onTypeChanged: (_) {},
-        ),
-      ],
+          const SizedBox(width: 10),
+          IconButton(
+            onPressed: () => Get.dialog(
+              LoteFilterDialog(
+                storageColor: storageColor,
+              ),
+            ),
+            icon: const Icon(
+              Icons.filter_alt_outlined,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

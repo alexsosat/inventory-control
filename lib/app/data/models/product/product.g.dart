@@ -22,19 +22,24 @@ const ProductSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'hexColor': PropertySchema(
+    r'hashCode': PropertySchema(
       id: 1,
+      name: r'hashCode',
+      type: IsarType.long,
+    ),
+    r'hexColor': PropertySchema(
+      id: 2,
       name: r'hexColor',
       type: IsarType.string,
     ),
     r'metricUnit': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'metricUnit',
       type: IsarType.byte,
       enumMap: _ProductmetricUnitEnumValueMap,
     ),
     r'name': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'name',
       type: IsarType.string,
     )
@@ -84,9 +89,10 @@ void _productSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.description);
-  writer.writeString(offsets[1], object.hexColor);
-  writer.writeByte(offsets[2], object.metricUnit.index);
-  writer.writeString(offsets[3], object.name);
+  writer.writeLong(offsets[1], object.hashCode);
+  writer.writeString(offsets[2], object.hexColor);
+  writer.writeByte(offsets[3], object.metricUnit.index);
+  writer.writeString(offsets[4], object.name);
 }
 
 Product _productDeserialize(
@@ -97,11 +103,11 @@ Product _productDeserialize(
 ) {
   final object = Product(
     description: reader.readStringOrNull(offsets[0]),
-    hexColor: reader.readString(offsets[1]),
+    hexColor: reader.readString(offsets[2]),
     metricUnit:
-        _ProductmetricUnitValueEnumMap[reader.readByteOrNull(offsets[2])] ??
+        _ProductmetricUnitValueEnumMap[reader.readByteOrNull(offsets[3])] ??
             MetricUnit.kg,
-    name: reader.readString(offsets[3]),
+    name: reader.readString(offsets[4]),
   );
   object.id = id;
   return object;
@@ -117,11 +123,13 @@ P _productDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (_ProductmetricUnitValueEnumMap[reader.readByteOrNull(offset)] ??
           MetricUnit.kg) as P;
-    case 3:
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -376,6 +384,59 @@ extension ProductQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'description',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterFilterCondition> hashCodeEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterFilterCondition> hashCodeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterFilterCondition> hashCodeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterFilterCondition> hashCodeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'hashCode',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -821,6 +882,18 @@ extension ProductQuerySortBy on QueryBuilder<Product, Product, QSortBy> {
     });
   }
 
+  QueryBuilder<Product, Product, QAfterSortBy> sortByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterSortBy> sortByHashCodeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.desc);
+    });
+  }
+
   QueryBuilder<Product, Product, QAfterSortBy> sortByHexColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hexColor', Sort.asc);
@@ -869,6 +942,18 @@ extension ProductQuerySortThenBy
   QueryBuilder<Product, Product, QAfterSortBy> thenByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterSortBy> thenByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterSortBy> thenByHashCodeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.desc);
     });
   }
 
@@ -930,6 +1015,12 @@ extension ProductQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Product, Product, QDistinct> distinctByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'hashCode');
+    });
+  }
+
   QueryBuilder<Product, Product, QDistinct> distinctByHexColor(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -962,6 +1053,12 @@ extension ProductQueryProperty
   QueryBuilder<Product, String?, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<Product, int, QQueryOperations> hashCodeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'hashCode');
     });
   }
 
