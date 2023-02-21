@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:inventory_control/app/modules/lote_list/controllers/lote_list_controller.dart';
 import 'filter_dialog.dart';
 
 import '../../../../../global/form/search_field.dart';
@@ -25,6 +26,8 @@ class LoteSearchSection extends StatelessWidget {
             child: SearchField(
               controller: TextEditingController(),
               label: "Buscador",
+              onChanged: (value) =>
+                  Get.find<LoteListController>().searchText(value),
             ),
           ),
           const SizedBox(width: 10),

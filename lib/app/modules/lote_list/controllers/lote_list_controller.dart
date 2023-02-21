@@ -23,6 +23,7 @@ class LoteListController extends GetxController with StateMixin<List<Lote>> {
   List<Lote> _lotes = [];
 
   LoteListSearchModel? searchModel;
+  final searchText = ''.obs;
 
   @override
   void onInit() {

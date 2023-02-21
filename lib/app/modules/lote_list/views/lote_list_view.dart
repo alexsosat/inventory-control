@@ -26,10 +26,32 @@ class LoteListView extends GetView<LoteListController> {
         ),
       ),
       body: controller.obx(
-        (lotes) => ListView.builder(
-          itemCount: lotes!.length,
-          padding: const EdgeInsets.all(20),
-          itemBuilder: (context, index) => LoteTile(lotes[index]),
+        (lotes) => Obx(
+          () {
+            if (controller.searchText.value.isNotEmpty) {
+              final filteredLotes = lotes!
+                  .where(
+                    (lote) =>
+                        lote.product.value!.name.toLowerCase().contains(
+                              controller.searchText.value.toLowerCase(),
+                            ) ||
+                        lote.loteUID.toLowerCase().contains(
+                              controller.searchText.value.toLowerCase(),
+                            ),
+                  )
+                  .toList();
+              return ListView.builder(
+                itemCount: filteredLotes.length,
+                padding: const EdgeInsets.all(20),
+                itemBuilder: (context, index) => LoteTile(filteredLotes[index]),
+              );
+            }
+            return ListView.builder(
+              itemCount: lotes!.length,
+              padding: const EdgeInsets.all(20),
+              itemBuilder: (context, index) => LoteTile(lotes[index]),
+            );
+          },
         ),
         onEmpty: Center(
           child: Text(
