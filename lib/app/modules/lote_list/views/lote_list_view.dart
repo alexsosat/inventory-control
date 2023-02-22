@@ -55,7 +55,7 @@ class LoteListView extends GetView<LoteListController> {
         ),
         onEmpty: Center(
           child: Text(
-            'No hay lotes en este almacen',
+            'No hay lotes para mostrar',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(),
           ),
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:get/get.dart';
 
+import '../../../../../constants/values.dart';
 import '../../../../data/models/lote/lote.dart';
 
 class LoteTile extends StatelessWidget {
@@ -10,6 +12,10 @@ class LoteTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      tileColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: AppValues.kRoundedMedium,
+      ),
       leading: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -23,6 +29,8 @@ class LoteTile extends StatelessWidget {
       ),
       title: Text(lote.product.value!.name),
       subtitle: Text(lote.loteUID),
+      trailing: const Icon(Icons.chevron_right_rounded),
+      onTap: () {},
     );
   }
 }

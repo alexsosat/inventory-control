@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 import '../../../../../constants/theme.dart';
 import '../../../../../global/overlays/dialog/dialog.dart';
+import '../../../../data/models/lote/lote.dart';
+import '../../../../routes/app_pages.dart';
 import '../../controllers/home_controller.dart';
 import '../widgets/glance_card.dart';
 
@@ -43,6 +46,13 @@ class StaggeredGlanceSection extends GetView<HomeController> {
               value: controller.expiredLotes.toString(),
               icon: Icons.delete_outline_rounded,
               color: AppTheme.red,
+              onTap: () => Get.toNamed(
+                Routes.LOTE_LIST,
+                arguments: {
+                  'title': 'Lotes Caducados',
+                  'loteStatus': LoteStatus.expired,
+                },
+              ),
             ),
           ),
           StaggeredGridTile.count(
@@ -53,6 +63,13 @@ class StaggeredGlanceSection extends GetView<HomeController> {
               value: controller.goodLotes.toString(),
               icon: Icons.check,
               color: AppTheme.green,
+              onTap: () => Get.toNamed(
+                Routes.LOTE_LIST,
+                arguments: {
+                  'title': 'Lotes En Buen Estado',
+                  'loteStatus': LoteStatus.good,
+                },
+              ),
             ),
           ),
           StaggeredGridTile.count(
@@ -63,6 +80,13 @@ class StaggeredGlanceSection extends GetView<HomeController> {
               value: controller.closeToExpireLotes.toString(),
               icon: Icons.calendar_month,
               color: AppTheme.yellow,
+              onTap: () => Get.toNamed(
+                Routes.LOTE_LIST,
+                arguments: {
+                  'title': 'Lotes Por Caducar',
+                  'loteStatus': LoteStatus.toExpire,
+                },
+              ),
             ),
           ),
         ],

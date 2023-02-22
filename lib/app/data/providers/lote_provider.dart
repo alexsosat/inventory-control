@@ -32,15 +32,11 @@ class LoteProvider {
         },
       );
 
-  Future moveLoteToCloseToExpired(Lote lote) async {
-    lote.status = LoteStatus.toExpire;
-    await isar.writeTxn(() async {
-      await isar.lotes.put(lote);
-    });
-  }
-
-  Future moveLoteToExpired(Lote lote) async {
-    lote.status = LoteStatus.expired;
+  Future moveLoteTo({
+    required Lote lote,
+    required LoteStatus moveTo,
+  }) async {
+    lote.status = moveTo;
     await isar.writeTxn(() async {
       await isar.lotes.put(lote);
     });
