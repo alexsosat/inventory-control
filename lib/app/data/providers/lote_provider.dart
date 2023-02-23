@@ -28,6 +28,7 @@ class LoteProvider {
           final productId = await isar.lotes.put(lote);
           await lote.product.save();
           await lote.storage.save();
+          await lote.productPresentation.save();
           return productId;
         },
       );

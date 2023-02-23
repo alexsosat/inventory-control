@@ -1,3 +1,4 @@
+import 'package:inventory_control/app/data/models/product/product.dart';
 import 'package:isar/isar.dart';
 
 import '../models/product_presentation/product_presentation.dart';
@@ -15,6 +16,21 @@ class ProductPresentationProvider {
   /// Get all tags
   Future<List<ProductPresentation>> getAllPresentations() async {
     return isar.productPresentations.where().findAll();
+  }
+
+  /// Get presentation by product id
+  Future<List<ProductPresentation>> getPresentationsByProductId(
+    int? productId,
+  ) async {
+    if (productId == null) {
+      return [];
+    }
+    final product =
+        await isar.products.where().idEqualTo(productId).findFirst();
+    if (product == null) {
+      return [];
+    }
+    return product.presentations.toList();
   }
 
   Future<int> addPresentation(ProductPresentation presentation) async =>

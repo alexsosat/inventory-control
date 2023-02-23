@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inventory_control/app/modules/lote_add/views/widgets/lote_add_form.dart';
 
+import '../../../../global/overlays/snackbar.dart';
 import '../controllers/lote_add_controller.dart';
 
 class LoteAddView extends GetView<LoteAddController> {
@@ -21,6 +22,15 @@ class LoteAddView extends GetView<LoteAddController> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (controller.formKey.currentState!.validate()) {
+            if (!controller.product!.presentations
+                .contains(controller.productPresentation!)) {
+              snackbarMessage(
+                title: "Error de entrada",
+                message:
+                    "La presentación seleccionada no pertenece al producto seleccionado",
+              );
+              return;
+            }
             controller.saveLote();
           }
         },

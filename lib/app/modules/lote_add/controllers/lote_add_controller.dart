@@ -7,6 +7,7 @@ import '../../../../global/overlays/dialog/dialog.dart';
 import '../../../../services/local_database/call_function.dart';
 import '../../../data/models/lote/lote.dart';
 import '../../../data/models/product/product.dart';
+import '../../../data/models/product_presentation/product_presentation.dart';
 import '../../../data/models/storages/storage.dart';
 import '../../../data/providers/lote_provider.dart';
 import '../../home/controllers/home_controller.dart';
@@ -25,6 +26,9 @@ class LoteAddController extends GetxController {
   DateTime? expirationDate;
   Storage? storage;
   Product? product;
+  ProductPresentation? productPresentation;
+
+  final productId = 0.obs;
 
   LoteAddController(this.storage);
 
@@ -44,6 +48,8 @@ class LoteAddController extends GetxController {
 
         lote.storage.value = storage;
         lote.product.value = product;
+
+        lote.productPresentation.value = productPresentation;
 
         return _provider.addLote(lote);
       },

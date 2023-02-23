@@ -92,6 +92,12 @@ const LoteSchema = CollectionSchema(
       name: r'product',
       target: r'Product',
       single: true,
+    ),
+    r'productPresentation': LinkSchema(
+      id: -8354730509148323228,
+      name: r'productPresentation',
+      target: r'ProductPresentation',
+      single: true,
     )
   },
   embeddedSchemas: {},
@@ -193,13 +199,15 @@ Id _loteGetId(Lote object) {
 }
 
 List<IsarLinkBase<dynamic>> _loteGetLinks(Lote object) {
-  return [object.storage, object.product];
+  return [object.storage, object.product, object.productPresentation];
 }
 
 void _loteAttach(IsarCollection<dynamic> col, Id id, Lote object) {
   object.id = id;
   object.storage.attach(col, col.isar.collection<Storage>(), r'storage', id);
   object.product.attach(col, col.isar.collection<Product>(), r'product', id);
+  object.productPresentation.attach(col,
+      col.isar.collection<ProductPresentation>(), r'productPresentation', id);
 }
 
 extension LoteByIndex on IsarCollection<Lote> {
@@ -1038,6 +1046,19 @@ extension LoteQueryLinks on QueryBuilder<Lote, Lote, QFilterCondition> {
   QueryBuilder<Lote, Lote, QAfterFilterCondition> productIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'product', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> productPresentation(
+      FilterQuery<ProductPresentation> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'productPresentation');
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> productPresentationIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'productPresentation', 0, true, 0, true);
     });
   }
 }

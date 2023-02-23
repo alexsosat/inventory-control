@@ -2,6 +2,7 @@
 import 'package:isar/isar.dart';
 
 import '../product/product.dart';
+import '../product_presentation/product_presentation.dart';
 import '../storages/storage.dart';
 
 part 'lote.g.dart';
@@ -23,6 +24,8 @@ class Lote {
   final storage = IsarLink<Storage>();
 
   final product = IsarLink<Product>();
+
+  final productPresentation = IsarLink<ProductPresentation>();
 
   @enumerated
   LoteStatus status;

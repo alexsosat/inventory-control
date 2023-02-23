@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:inventory_control/global/form/bottomsheets/product_presentation_bottomsheet.dart';
 import 'package:inventory_control/global/form/pickers/date_picker.dart';
 
 import '../../../../../global/card/rounded_form_card.dart';
@@ -37,14 +38,27 @@ class _LoteAddFormState extends State<LoteAddForm> {
             labelText: 'Número de registro del lote',
           ),
           const SizedBox(height: 20),
-          ProductBottomSheet(
-            initialItem: controller.product,
-            onChanged: (product) => controller.product = product,
-          ),
-          const SizedBox(height: 20),
           StorageBottomSheet(
             initialItem: controller.storage,
             onChanged: (storage) => controller.storage = storage,
+          ),
+          const SizedBox(height: 20),
+          ProductBottomSheet(
+            initialItem: controller.product,
+            onChanged: (product) {
+              controller.product = product;
+              controller.productId(product.id);
+            },
+          ),
+          const SizedBox(height: 20),
+          Obx(
+            () {
+              return ProductPresentationBottomSheet(
+                productId: controller.productId.value,
+                onChanged: (presentation) =>
+                    controller.productPresentation = presentation,
+              );
+            },
           ),
           const SizedBox(height: 20),
           TextFormFieldRounded(
