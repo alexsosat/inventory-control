@@ -8,12 +8,16 @@ import '../modules/lote_list/bindings/lote_list_binding.dart';
 import '../modules/lote_list/views/lote_list_view.dart';
 import '../modules/product_add/bindings/product_add_binding.dart';
 import '../modules/product_add/views/product_add_view.dart';
+import '../modules/product_presentation_add/bindings/product_presentation_add_binding.dart';
+import '../modules/product_presentation_add/views/product_presentation_add_view.dart';
+import '../modules/product_presentation_list/bindings/product_presentation_list_binding.dart';
+import '../modules/product_presentation_list/views/product_presentation_list_view.dart';
 import '../modules/storage_add/bindings/storage_add_binding.dart';
 import '../modules/storage_add/views/storage_add_view.dart';
 import '../modules/tag_add/bindings/tag_add_binding.dart';
 import '../modules/tag_add/views/tag_add_view.dart';
-import '../modules/tag_picker/bindings/tag_list_binding.dart';
-import '../modules/tag_picker/views/tag_list_view.dart';
+import '../modules/tag_list/bindings/tag_list_binding.dart';
+import '../modules/tag_list/views/tag_list_view.dart';
 
 part 'app_routes.dart';
 
@@ -57,6 +61,16 @@ class AppPages {
       name: _Paths.LOTE_ADD,
       page: () => const LoteAddView(),
       binding: LoteAddBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCT_PRESENTATION_LIST,
+      page: () => const ProductPresentationListView(),
+      binding: ProductPresentationListBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCT_PRESENTATION_ADD,
+      page: () => const ProductPresentationAddView(),
+      binding: ProductPresentationAddBinding(),
     ),
   ];
 }

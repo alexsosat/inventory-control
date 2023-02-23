@@ -7,7 +7,7 @@ import '../../../data/models/tag/tag.dart';
 import '../../../data/providers/tag_provider.dart';
 
 import '../../../../services/local_database/call_function.dart';
-import '../../tag_picker/controllers/tag_list_controller.dart';
+import '../../tag_list/controllers/tag_list_controller.dart';
 
 class TagAddController extends GetxController {
   final TagProvider _provider = TagProvider();

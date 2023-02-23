@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 
 import '../../app/data/models/lote/lote.dart';
 import '../../app/data/models/product/product.dart';
+import '../../app/data/models/product_presentation/product_presentation.dart';
 import '../../app/data/models/storages/storage.dart';
 import '../../app/data/models/tag/tag.dart';
 
@@ -14,6 +15,7 @@ class LocalDBService {
           LoteSchema,
           TagSchema,
           ProductSchema,
+          ProductPresentationSchema,
         ],
         inspector: true,
       );

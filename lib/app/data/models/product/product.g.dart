@@ -32,14 +32,8 @@ const ProductSchema = CollectionSchema(
       name: r'hexColor',
       type: IsarType.string,
     ),
-    r'metricUnit': PropertySchema(
-      id: 3,
-      name: r'metricUnit',
-      type: IsarType.byte,
-      enumMap: _ProductmetricUnitEnumValueMap,
-    ),
     r'name': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'name',
       type: IsarType.string,
     )
@@ -51,6 +45,12 @@ const ProductSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {
+    r'presentations': LinkSchema(
+      id: -468686942060587349,
+      name: r'presentations',
+      target: r'ProductPresentation',
+      single: false,
+    ),
     r'tags': LinkSchema(
       id: -3671732819487995644,
       name: r'tags',
@@ -91,8 +91,7 @@ void _productSerialize(
   writer.writeString(offsets[0], object.description);
   writer.writeLong(offsets[1], object.hashCode);
   writer.writeString(offsets[2], object.hexColor);
-  writer.writeByte(offsets[3], object.metricUnit.index);
-  writer.writeString(offsets[4], object.name);
+  writer.writeString(offsets[3], object.name);
 }
 
 Product _productDeserialize(
@@ -104,10 +103,7 @@ Product _productDeserialize(
   final object = Product(
     description: reader.readStringOrNull(offsets[0]),
     hexColor: reader.readString(offsets[2]),
-    metricUnit:
-        _ProductmetricUnitValueEnumMap[reader.readByteOrNull(offsets[3])] ??
-            MetricUnit.kg,
-    name: reader.readString(offsets[4]),
+    name: reader.readString(offsets[3]),
   );
   object.id = id;
   return object;
@@ -127,40 +123,24 @@ P _productDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (_ProductmetricUnitValueEnumMap[reader.readByteOrNull(offset)] ??
-          MetricUnit.kg) as P;
-    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-const _ProductmetricUnitEnumValueMap = {
-  'kg': 0,
-  'g': 1,
-  'l': 2,
-  'ml': 3,
-  'unidades': 4,
-};
-const _ProductmetricUnitValueEnumMap = {
-  0: MetricUnit.kg,
-  1: MetricUnit.g,
-  2: MetricUnit.l,
-  3: MetricUnit.ml,
-  4: MetricUnit.unidades,
-};
-
 Id _productGetId(Product object) {
   return object.id;
 }
 
 List<IsarLinkBase<dynamic>> _productGetLinks(Product object) {
-  return [object.tags];
+  return [object.presentations, object.tags];
 }
 
 void _productAttach(IsarCollection<dynamic> col, Id id, Product object) {
   object.id = id;
+  object.presentations.attach(
+      col, col.isar.collection<ProductPresentation>(), r'presentations', id);
   object.tags.attach(col, col.isar.collection<Tag>(), r'tags', id);
 }
 
@@ -623,59 +603,6 @@ extension ProductQueryFilter
     });
   }
 
-  QueryBuilder<Product, Product, QAfterFilterCondition> metricUnitEqualTo(
-      MetricUnit value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'metricUnit',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Product, Product, QAfterFilterCondition> metricUnitGreaterThan(
-    MetricUnit value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'metricUnit',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Product, Product, QAfterFilterCondition> metricUnitLessThan(
-    MetricUnit value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'metricUnit',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Product, Product, QAfterFilterCondition> metricUnitBetween(
-    MetricUnit lower,
-    MetricUnit upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'metricUnit',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
   QueryBuilder<Product, Product, QAfterFilterCondition> nameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -812,6 +739,66 @@ extension ProductQueryObject
 
 extension ProductQueryLinks
     on QueryBuilder<Product, Product, QFilterCondition> {
+  QueryBuilder<Product, Product, QAfterFilterCondition> presentations(
+      FilterQuery<ProductPresentation> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'presentations');
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterFilterCondition>
+      presentationsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'presentations', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterFilterCondition> presentationsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'presentations', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterFilterCondition>
+      presentationsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'presentations', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterFilterCondition>
+      presentationsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'presentations', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterFilterCondition>
+      presentationsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'presentations', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Product, Product, QAfterFilterCondition>
+      presentationsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'presentations', lower, includeLower, upper, includeUpper);
+    });
+  }
+
   QueryBuilder<Product, Product, QAfterFilterCondition> tags(
       FilterQuery<Tag> q) {
     return QueryBuilder.apply(this, (query) {
@@ -906,18 +893,6 @@ extension ProductQuerySortBy on QueryBuilder<Product, Product, QSortBy> {
     });
   }
 
-  QueryBuilder<Product, Product, QAfterSortBy> sortByMetricUnit() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'metricUnit', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Product, Product, QAfterSortBy> sortByMetricUnitDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'metricUnit', Sort.desc);
-    });
-  }
-
   QueryBuilder<Product, Product, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -981,18 +956,6 @@ extension ProductQuerySortThenBy
     });
   }
 
-  QueryBuilder<Product, Product, QAfterSortBy> thenByMetricUnit() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'metricUnit', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Product, Product, QAfterSortBy> thenByMetricUnitDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'metricUnit', Sort.desc);
-    });
-  }
-
   QueryBuilder<Product, Product, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -1028,12 +991,6 @@ extension ProductQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Product, Product, QDistinct> distinctByMetricUnit() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'metricUnit');
-    });
-  }
-
   QueryBuilder<Product, Product, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1065,12 +1022,6 @@ extension ProductQueryProperty
   QueryBuilder<Product, String, QQueryOperations> hexColorProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'hexColor');
-    });
-  }
-
-  QueryBuilder<Product, MetricUnit, QQueryOperations> metricUnitProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'metricUnit');
     });
   }
 

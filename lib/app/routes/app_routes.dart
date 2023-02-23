@@ -10,6 +10,8 @@ abstract class Routes {
   static const TAG_ADD = _Paths.TAG_ADD;
   static const LOTE_LIST = _Paths.LOTE_LIST;
   static const LOTE_ADD = _Paths.LOTE_ADD;
+  static const PRODUCT_PRESENTATION_LIST = _Paths.PRODUCT_PRESENTATION_LIST;
+  static const PRODUCT_PRESENTATION_ADD = _Paths.PRODUCT_PRESENTATION_ADD;
 }
 
 abstract class _Paths {
@@ -21,4 +23,6 @@ abstract class _Paths {
   static const TAG_ADD = '/tag-add';
   static const LOTE_LIST = '/lote-list';
   static const LOTE_ADD = '/lote-add';
+  static const PRODUCT_PRESENTATION_LIST = '/product-presentation-list';
+  static const PRODUCT_PRESENTATION_ADD = '/product-presentation-add';
 }

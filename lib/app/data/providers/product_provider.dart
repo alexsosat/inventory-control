@@ -28,6 +28,7 @@ class ProductProvider {
         () async {
           final productId = await isar.products.put(product);
           await product.tags.save();
+          await product.presentations.save();
           return productId;
         },
       );

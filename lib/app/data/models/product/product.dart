@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:isar/isar.dart';
 
+import '../product_presentation/product_presentation.dart';
 import '../tag/tag.dart';
 
 part 'product.g.dart';
@@ -14,21 +15,19 @@ class Product {
   // final String image;
   final String hexColor;
 
-  @enumerated
-  late MetricUnit metricUnit;
-
   Product({
     required this.name,
     this.description,
     required this.hexColor,
-    required this.metricUnit,
   });
+
+  final presentations = IsarLinks<ProductPresentation>();
 
   final tags = IsarLinks<Tag>();
 
   @override
   String toString() {
-    return 'Product(id: $id, name: $name, description: $description, hexColor: $hexColor, metricUnit: $metricUnit)';
+    return 'Product(id: $id, name: $name, description: $description, hexColor: $hexColor)';
   }
 
   @override
@@ -38,8 +37,7 @@ class Product {
     return other.id == id &&
         other.name == name &&
         other.description == description &&
-        other.hexColor == hexColor &&
-        other.metricUnit == metricUnit;
+        other.hexColor == hexColor;
   }
 
   @override
@@ -47,15 +45,6 @@ class Product {
     return id.hashCode ^
         name.hashCode ^
         description.hashCode ^
-        hexColor.hashCode ^
-        metricUnit.hashCode;
+        hexColor.hashCode;
   }
-}
-
-enum MetricUnit {
-  kg,
-  g,
-  l,
-  ml,
-  unidades,
 }

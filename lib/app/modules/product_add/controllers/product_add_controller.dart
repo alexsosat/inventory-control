@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
+import '../../../data/models/product_presentation/product_presentation.dart';
 
 import '../../../../global/overlays/dialog/dialog.dart';
 import '../../../../services/local_database/call_function.dart';
@@ -17,8 +18,8 @@ class ProductAddController extends GetxController {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-  MetricUnit metricUnit = MetricUnit.unidades;
   List<Tag> tags = [];
+  List<ProductPresentation> presentations = [];
   Color color = Colors.blueGrey;
 
   saveProduct() {
@@ -28,12 +29,15 @@ class ProductAddController extends GetxController {
         final product = Product(
           name: nameController.text,
           description: descriptionController.text,
-          metricUnit: metricUnit,
           hexColor: colorToHex(color),
         );
 
         for (Tag tag in tags) {
           product.tags.add(tag);
+        }
+
+        for (ProductPresentation presentation in presentations) {
+          product.presentations.add(presentation);
         }
 
         return _provider.addProduct(product);

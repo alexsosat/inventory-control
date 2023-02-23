@@ -5,7 +5,7 @@ import 'package:flutter_iconpicker/Serialization/iconDataSerialization.dart';
 import 'package:get/get.dart';
 import 'package:group_button/group_button.dart';
 import 'package:inventory_control/constants/values.dart';
-import '../../../app/modules/tag_picker/controllers/tag_list_controller.dart';
+import '../../../app/modules/tag_list/controllers/tag_list_controller.dart';
 
 import '../../../app/data/models/tag/tag.dart';
 
