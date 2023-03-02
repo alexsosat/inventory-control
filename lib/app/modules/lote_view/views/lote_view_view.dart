@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:inventory_control/app/modules/lote_view/views/widgets/lote_info.dart';
-import '../../../data/models/lote/lote.dart';
 import 'widgets/lote_bottom_actions.dart';
-import '../../../../global/buttons/pill_button.dart';
-import '../../../../global/texts/row_data.dart';
 
 import '../controllers/lote_view_controller.dart';
 

@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_iconpicker/Serialization/iconDataSerialization.dart';
 
 class IconCheckBoxTile extends StatefulWidget {
   final Function(bool value) onChanged;

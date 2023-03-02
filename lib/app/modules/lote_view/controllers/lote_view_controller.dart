@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:inventory_control/app/modules/home/controllers/home_controller.dart';
 import 'package:inventory_control/app/modules/home/controllers/storage_list_controller.dart';
 
 import '../../../../global/overlays/dialog/dialog.dart';
@@ -6,7 +7,6 @@ import '../../../../global/overlays/loading_dialog.dart';
 import '../../../data/models/lote/lote.dart';
 import '../../../data/providers/lote_provider.dart';
 import '../../../data/providers/storage_provider.dart';
-import '../../home/controllers/home_controller.dart';
 import '../../lote_list/controllers/lote_list_controller.dart';
 import '../models/lote_trasspass_model.dart';
 
@@ -17,6 +17,32 @@ class LoteViewController extends GetxController {
   final _loteProvider = LoteProvider();
 
   LoteViewController(this.lote);
+
+  decreaseLoteQuantity(double quantity) async {
+    openLoadingDialog("Disminuyendo cantidad...");
+
+    lote.quantity -= quantity;
+
+    if (lote.quantity <= 0) {
+      await _loteProvider.deleteLote(lote);
+    } else {
+      await _loteProvider.updateLote(lote);
+    }
+
+    Get.back();
+
+    openDialogWindow(
+      title: "Cantidad disminuida",
+      message: "La cantidad del lote se ha disminuido correctamente",
+      type: DialogType.success,
+      onConfirm: () {
+        Get.find<LoteListController>().loadLotes();
+        Get.find<StorageListController>().loadData();
+        Get.find<HomeController>().loadData();
+        Get.back();
+      },
+    );
+  }
 
   trasspassLote(TrasspassModel trasspassModel) async {
     openLoadingDialog("Traspasando lote...");
@@ -47,7 +73,7 @@ class LoteViewController extends GetxController {
 
     lote.quantity -= trasspassModel.quantity;
 
-    if (lote.quantity == 0) {
+    if (lote.quantity <= 0) {
       await _loteProvider.deleteLote(lote);
     } else {
       await _loteProvider.updateLote(lote);
@@ -62,6 +88,7 @@ class LoteViewController extends GetxController {
       onConfirm: () {
         Get.find<LoteListController>().loadLotes();
         Get.find<StorageListController>().loadData();
+        Get.find<HomeController>().loadData();
         Get.back();
       },
     );

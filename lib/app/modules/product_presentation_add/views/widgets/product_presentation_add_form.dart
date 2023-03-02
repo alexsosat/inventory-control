@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../global/card/rounded_form_card.dart';
-import '../../../../../global/form/pickers/icon_picker.dart';
 import '../../../../../global/form/text_form_field_rounded.dart';
 import '../../controllers/product_presentation_add_controller.dart';
 

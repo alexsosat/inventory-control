@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/theme.dart';
-
 /// Shows a bottom snackbar with the [title] and [message]
 snackbarMessage({
   String? title,

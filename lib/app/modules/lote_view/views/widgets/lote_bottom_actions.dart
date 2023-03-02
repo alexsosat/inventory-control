@@ -5,6 +5,7 @@ import '../../../../../global/buttons/pill_button.dart';
 import '../../../../../global/overlays/dialog/dialog.dart';
 import '../../controllers/lote_view_controller.dart';
 import '../../models/lote_trasspass_model.dart';
+import 'lote_quantity_decrease_dialog.dart';
 import 'lote_trasspass_dialog.dart';
 
 class LoteBottomActions extends StatelessWidget {
@@ -14,8 +15,6 @@ class LoteBottomActions extends StatelessWidget {
     final trasspassModel = await Get.dialog<TrasspassModel?>(
       const LoteTrasspassDialog(),
     );
-
-    print(trasspassModel);
 
     if (trasspassModel == null) return;
 
@@ -42,6 +41,28 @@ class LoteBottomActions extends StatelessWidget {
     }
 
     Get.find<LoteViewController>().trasspassLote(trasspassModel);
+  }
+
+  _loteDecreaseAction() async {
+    final decreaseQuantity = await Get.dialog<double?>(
+      const LoteQuantityDecreaseDialog(),
+    );
+
+    if (decreaseQuantity == null) return;
+
+    final controller = Get.find<LoteViewController>();
+
+    if (decreaseQuantity > controller.lote.quantity) {
+      openDialogWindow(
+        title: "Acción no permitida",
+        message: "No puedes traspasar una cantidad mayor a la que tienes",
+        type: DialogType.warning,
+        onConfirm: () {},
+      );
+      return;
+    }
+
+    controller.decreaseLoteQuantity(decreaseQuantity);
   }
 
   @override
@@ -77,7 +98,7 @@ class LoteBottomActions extends StatelessWidget {
           const SizedBox(width: 20),
           Expanded(
             child: PillButton(
-              onPressed: () {},
+              onPressed: () => _loteDecreaseAction(),
               color: Colors.red,
               child: Row(
                 children: const [
