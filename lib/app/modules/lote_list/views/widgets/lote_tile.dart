@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../constants/values.dart';
 import '../../../../data/models/lote/lote.dart';
+import '../../../../routes/app_pages.dart';
 
 class LoteTile extends StatelessWidget {
   final Lote lote;
@@ -28,9 +30,14 @@ class LoteTile extends StatelessWidget {
         ),
       ),
       title: Text(lote.product.value!.name),
-      subtitle: Text(lote.loteUID),
+      subtitle: Text(
+        DateFormat('dd/MM/yyyy').format(lote.dateExpiration),
+      ),
       trailing: const Icon(Icons.chevron_right_rounded),
-      onTap: () {},
+      onTap: () => Get.toNamed(
+        Routes.LOTE_VIEW,
+        arguments: lote,
+      ),
     );
   }
 }

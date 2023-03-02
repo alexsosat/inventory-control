@@ -68,8 +68,8 @@ const LoteSchema = CollectionSchema(
     r'loteUID': IndexSchema(
       id: -5977357089534631101,
       name: r'loteUID',
-      unique: true,
-      replace: true,
+      unique: false,
+      replace: false,
       properties: [
         IndexPropertySchema(
           name: r'loteUID',
@@ -208,60 +208,6 @@ void _loteAttach(IsarCollection<dynamic> col, Id id, Lote object) {
   object.product.attach(col, col.isar.collection<Product>(), r'product', id);
   object.productPresentation.attach(col,
       col.isar.collection<ProductPresentation>(), r'productPresentation', id);
-}
-
-extension LoteByIndex on IsarCollection<Lote> {
-  Future<Lote?> getByLoteUID(String loteUID) {
-    return getByIndex(r'loteUID', [loteUID]);
-  }
-
-  Lote? getByLoteUIDSync(String loteUID) {
-    return getByIndexSync(r'loteUID', [loteUID]);
-  }
-
-  Future<bool> deleteByLoteUID(String loteUID) {
-    return deleteByIndex(r'loteUID', [loteUID]);
-  }
-
-  bool deleteByLoteUIDSync(String loteUID) {
-    return deleteByIndexSync(r'loteUID', [loteUID]);
-  }
-
-  Future<List<Lote?>> getAllByLoteUID(List<String> loteUIDValues) {
-    final values = loteUIDValues.map((e) => [e]).toList();
-    return getAllByIndex(r'loteUID', values);
-  }
-
-  List<Lote?> getAllByLoteUIDSync(List<String> loteUIDValues) {
-    final values = loteUIDValues.map((e) => [e]).toList();
-    return getAllByIndexSync(r'loteUID', values);
-  }
-
-  Future<int> deleteAllByLoteUID(List<String> loteUIDValues) {
-    final values = loteUIDValues.map((e) => [e]).toList();
-    return deleteAllByIndex(r'loteUID', values);
-  }
-
-  int deleteAllByLoteUIDSync(List<String> loteUIDValues) {
-    final values = loteUIDValues.map((e) => [e]).toList();
-    return deleteAllByIndexSync(r'loteUID', values);
-  }
-
-  Future<Id> putByLoteUID(Lote object) {
-    return putByIndex(r'loteUID', object);
-  }
-
-  Id putByLoteUIDSync(Lote object, {bool saveLinks = true}) {
-    return putByIndexSync(r'loteUID', object, saveLinks: saveLinks);
-  }
-
-  Future<List<Id>> putAllByLoteUID(List<Lote> objects) {
-    return putAllByIndex(r'loteUID', objects);
-  }
-
-  List<Id> putAllByLoteUIDSync(List<Lote> objects, {bool saveLinks = true}) {
-    return putAllByIndexSync(r'loteUID', objects, saveLinks: saveLinks);
-  }
 }
 
 extension LoteQueryWhereSort on QueryBuilder<Lote, Lote, QWhere> {

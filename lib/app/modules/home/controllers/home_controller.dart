@@ -52,7 +52,7 @@ class HomeController extends GetxController with StateMixin {
           await _lotesProvider.getLotesByStatus(LoteStatus.toExpire);
       for (Lote lote in closeToExpireLotes) {
         if (lote.dateExpiration.isBefore(DateTime.now())) {
-          _lotesProvider.moveLoteTo(
+          _lotesProvider.updateLoteStatus(
             lote: lote,
             moveTo: LoteStatus.expired,
           );
@@ -71,7 +71,7 @@ class HomeController extends GetxController with StateMixin {
       for (Lote lote in goodLotes) {
         if (lote.dateExpiration
             .isBefore(DateTime.now().subtract(const Duration(days: 90)))) {
-          _lotesProvider.moveLoteTo(
+          _lotesProvider.updateLoteStatus(
             lote: lote,
             moveTo: LoteStatus.toExpire,
           );

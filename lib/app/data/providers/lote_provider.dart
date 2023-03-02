@@ -33,7 +33,20 @@ class LoteProvider {
         },
       );
 
-  Future moveLoteTo({
+  /// Updates a Lote
+  /// Args:
+  ///  lote (Lote): The Lote object to be updated.
+  Future updateLote(Lote lote) async => isar.writeTxn(
+        () async {
+          await isar.lotes.put(lote);
+          await lote.product.save();
+          await lote.storage.save();
+          await lote.productPresentation.save();
+        },
+      );
+
+  /// Updates the status of a Lote
+  Future updateLoteStatus({
     required Lote lote,
     required LoteStatus moveTo,
   }) async {
@@ -42,4 +55,13 @@ class LoteProvider {
       await isar.lotes.put(lote);
     });
   }
+
+  /// Deletes a Lote
+  /// Args:
+  /// lote (Lote): The Lote object to be deleted.
+  Future deleteLote(Lote lote) async => isar.writeTxn(
+        () async {
+          await isar.lotes.delete(lote.id);
+        },
+      );
 }

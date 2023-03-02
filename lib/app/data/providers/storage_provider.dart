@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:collection/collection.dart';
 
 import '../models/lote/lote.dart';
 import '../models/storages/storage.dart';
@@ -36,4 +37,20 @@ class StorageProvider {
   Future<int> addStorage(Storage storage) async => isar.writeTxn<int>(
         () => isar.storages.put(storage),
       );
+
+  /// Search lote by its UID.
+  /// Args:
+  ///  loteUID (String): The UID of the lote to be searched.
+  /// storageId (int): The id of the storage where the lote is located.
+  /// Returns:
+  /// Lote: The lote object if found, null otherwise.
+  Future<Lote?> searchLoteByUID(String loteUID, int storageId) async {
+    final storage = await getStorageById(storageId);
+    if (storage == null) {
+      return null;
+    }
+    return storage.lotes.firstWhereOrNull(
+      (lote) => lote.loteUID == loteUID,
+    );
+  }
 }
