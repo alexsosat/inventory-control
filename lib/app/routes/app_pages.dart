@@ -10,6 +10,8 @@ import '../modules/lote_view/bindings/lote_view_binding.dart';
 import '../modules/lote_view/views/lote_view_view.dart';
 import '../modules/product_add/bindings/product_add_binding.dart';
 import '../modules/product_add/views/product_add_view.dart';
+import '../modules/product_list/bindings/product_list_binding.dart';
+import '../modules/product_list/views/product_list_view.dart';
 import '../modules/product_presentation_add/bindings/product_presentation_add_binding.dart';
 import '../modules/product_presentation_add/views/product_presentation_add_view.dart';
 import '../modules/product_presentation_list/bindings/product_presentation_list_binding.dart';
@@ -78,6 +80,11 @@ class AppPages {
       name: _Paths.LOTE_VIEW,
       page: () => const LoteViewView(),
       binding: LoteViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCT_LIST,
+      page: () => const ProductListView(),
+      binding: ProductListBinding(),
     ),
   ];
 }

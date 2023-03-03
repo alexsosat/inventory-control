@@ -119,6 +119,8 @@ class LoteListController extends GetxController with StateMixin<List<Lote>> {
         } else {
           _lotes.remove(lote);
         }
+      } else {
+        _lotes.remove(lote);
       }
     }
   }

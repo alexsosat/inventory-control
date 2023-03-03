@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../constants/values.dart';
-import '../../../../data/models/lote/lote.dart';
+import '../../../../data/models/product/product.dart';
 import '../../../../routes/app_pages.dart';
 
-class LoteTile extends StatelessWidget {
-  final Lote lote;
-  const LoteTile(this.lote, {super.key});
+class ProductTile extends StatelessWidget {
+  final Product product;
+  const ProductTile(this.product, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,22 +21,22 @@ class LoteTile extends StatelessWidget {
       leading: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: colorFromHex(lote.hexColor),
+          color: colorFromHex(product.hexColor),
           shape: BoxShape.circle,
         ),
         child: const Icon(
-          Icons.inventory_2_outlined,
+          Icons.description_outlined,
           color: Colors.white,
         ),
       ),
-      title: Text(lote.product.value!.name),
-      subtitle: Text(
-        DateFormat('dd/MM/yyyy').format(lote.dateExpiration),
-      ),
+      title: Text(product.name),
+      subtitle: product.description != null
+          ? Text(product.description!)
+          : const Text('Sin descripción'),
       trailing: const Icon(Icons.chevron_right_rounded),
       onTap: () => Get.toNamed(
         Routes.LOTE_VIEW,
-        arguments: lote,
+        arguments: product,
       ),
     );
   }

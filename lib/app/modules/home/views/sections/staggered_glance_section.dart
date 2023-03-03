@@ -3,7 +3,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
 import '../../../../../constants/theme.dart';
-import '../../../../../global/overlays/dialog/dialog.dart';
 import '../../../../data/models/lote/lote.dart';
 import '../../../../routes/app_pages.dart';
 import '../../controllers/home_controller.dart';
@@ -29,12 +28,7 @@ class StaggeredGlanceSection extends GetView<HomeController> {
               value: controller.registeredProducts.toString(),
               icon: Icons.inventory_rounded,
               color: AppTheme.blue,
-              onTap: () => openDialogWindow(
-                title: "Prueba",
-                message: "Prueba",
-                type: DialogType.info,
-                onCancel: () {},
-              ),
+              onTap: () => Get.toNamed(Routes.PRODUCT_LIST),
             ),
           ),
           StaggeredGridTile.count(

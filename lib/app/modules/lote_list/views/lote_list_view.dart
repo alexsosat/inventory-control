@@ -40,15 +40,18 @@ class LoteListView extends GetView<LoteListController> {
                             ),
                   )
                   .toList();
-              return ListView.builder(
+              return ListView.separated(
                 itemCount: filteredLotes.length,
                 padding: const EdgeInsets.all(20),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 20),
                 itemBuilder: (context, index) => LoteTile(filteredLotes[index]),
               );
             }
-            return ListView.builder(
+            return ListView.separated(
               itemCount: lotes!.length,
               padding: const EdgeInsets.all(20),
+              separatorBuilder: (context, index) => const SizedBox(height: 20),
               itemBuilder: (context, index) => LoteTile(lotes[index]),
             );
           },
