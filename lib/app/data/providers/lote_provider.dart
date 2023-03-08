@@ -1,5 +1,7 @@
-import '../models/lote/lote.dart';
 import 'package:isar/isar.dart';
+
+import '../models/lote/lote.dart';
+import '../models/product/product.dart';
 
 class LoteProvider {
   late Isar isar;
@@ -13,6 +15,16 @@ class LoteProvider {
 
   /// Get all the lots.
   Future<List<Lote>> getAllLotes() async => await isar.lotes.where().findAll();
+
+  /// Get all the lots by product.
+  /// Args:
+  /// productId (int): The product id.
+  Future<List<Lote>> getLotesByProduct(int productId) async => await isar.lotes
+      .filter()
+      .product(
+        (q) => q.idEqualTo(productId),
+      )
+      .findAll();
 
   /// Get Lotes by status
   Future<List<Lote>> getLotesByStatus(LoteStatus status) async =>

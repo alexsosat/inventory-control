@@ -35,7 +35,7 @@ class ProductTile extends StatelessWidget {
           : const Text('Sin descripción'),
       trailing: const Icon(Icons.chevron_right_rounded),
       onTap: () => Get.toNamed(
-        Routes.LOTE_VIEW,
+        Routes.PRODUCT_VIEW,
         arguments: product,
       ),
     );
