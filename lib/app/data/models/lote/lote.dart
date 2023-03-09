@@ -11,7 +11,7 @@ part 'lote.g.dart';
 @collection
 class Lote {
   Id id = Isar.autoIncrement;
-  @Index()
+
   String loteUID;
 
   String hexColor;

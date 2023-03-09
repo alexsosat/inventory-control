@@ -93,4 +93,24 @@ class LoteViewController extends GetxController {
       },
     );
   }
+
+  deleteLote() async {
+    openLoadingDialog("Eliminando lote...");
+
+    await _loteProvider.deleteLote(lote);
+
+    Get.back();
+
+    openDialogWindow(
+      title: "Lote eliminado",
+      message: "El lote se ha eliminado correctamente",
+      type: DialogType.success,
+      onConfirm: () {
+        Get.find<LoteListController>().loadLotes();
+        Get.find<StorageListController>().loadData();
+        Get.find<HomeController>().loadData();
+        Get.back();
+      },
+    );
+  }
 }

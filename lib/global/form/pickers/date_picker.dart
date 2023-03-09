@@ -5,11 +5,13 @@ import '../../../utils/remove_focus.dart';
 
 class DatePicker extends StatefulWidget {
   final String label;
+  final DateTime? initialDate;
   final Function(DateTime date) onDateChanged;
 
   const DatePicker({
     required this.label,
     required this.onDateChanged,
+    this.initialDate,
     super.key,
   });
 
@@ -21,8 +23,15 @@ class _DatePickerState extends State<DatePicker> {
   DateTime? _selectedDate;
 
   @override
+  void initState() {
+    _selectedDate ??= widget.initialDate;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FormField<DateTime>(
+      initialValue: _selectedDate,
       validator: (value) {
         if (value == null) {
           return 'Campo requerido';

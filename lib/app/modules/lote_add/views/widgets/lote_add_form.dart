@@ -55,6 +55,7 @@ class _LoteAddFormState extends State<LoteAddForm> {
             () {
               return ProductPresentationBottomSheet(
                 productId: controller.productId.value,
+                initialPresentation: controller.productPresentation,
                 onChanged: (presentation) =>
                     controller.productPresentation = presentation,
               );
@@ -75,15 +76,18 @@ class _LoteAddFormState extends State<LoteAddForm> {
             children: [
               DatePicker(
                 label: "Fecha de manufactura",
+                initialDate: controller.manufacturedDate,
                 onDateChanged: (date) => controller.manufacturedDate = date,
               ),
               const SizedBox(height: 10),
               DatePicker(
                 label: "Fecha de vencimiento",
+                initialDate: controller.expirationDate,
                 onDateChanged: (date) => controller.expirationDate = date,
               ),
               const SizedBox(height: 10),
               ColorPickerField(
+                initialColor: controller.color,
                 onColorChanged: (color) => controller.color = color,
               ),
             ],

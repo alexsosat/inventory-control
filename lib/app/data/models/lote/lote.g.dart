@@ -64,21 +64,7 @@ const LoteSchema = CollectionSchema(
   deserialize: _loteDeserialize,
   deserializeProp: _loteDeserializeProp,
   idName: r'id',
-  indexes: {
-    r'loteUID': IndexSchema(
-      id: -5977357089534631101,
-      name: r'loteUID',
-      unique: false,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'loteUID',
-          type: IndexType.hash,
-          caseSensitive: true,
-        )
-      ],
-    )
-  },
+  indexes: {},
   links: {
     r'storage': LinkSchema(
       id: -9197403507323110897,
@@ -281,50 +267,6 @@ extension LoteQueryWhere on QueryBuilder<Lote, Lote, QWhereClause> {
         upper: upperId,
         includeUpper: includeUpper,
       ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterWhereClause> loteUIDEqualTo(String loteUID) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'loteUID',
-        value: [loteUID],
-      ));
-    });
-  }
-
-  QueryBuilder<Lote, Lote, QAfterWhereClause> loteUIDNotEqualTo(
-      String loteUID) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'loteUID',
-              lower: [],
-              upper: [loteUID],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'loteUID',
-              lower: [loteUID],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'loteUID',
-              lower: [loteUID],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'loteUID',
-              lower: [],
-              upper: [loteUID],
-              includeUpper: false,
-            ));
-      }
     });
   }
 }

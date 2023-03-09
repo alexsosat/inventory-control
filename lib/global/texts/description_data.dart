@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../constants/theme.dart';
-
 class DescriptionData extends StatelessWidget {
   final String title;
   final Widget value;

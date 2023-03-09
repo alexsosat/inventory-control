@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:inventory_control/app/modules/lote_view/views/widgets/lote_info.dart';
+import 'widgets/lote_info.dart';
+import 'widgets/lote_pop_up_menu.dart';
 import 'widgets/lote_bottom_actions.dart';
 
 import '../controllers/lote_view_controller.dart';
@@ -14,6 +15,9 @@ class LoteViewView extends GetView<LoteViewController> {
       appBar: AppBar(
         title: Text(controller.lote.product.value!.name),
         centerTitle: false,
+        actions: const [
+          LotePopUpMenu(),
+        ],
       ),
       body: Stack(
         children: [

@@ -5,9 +5,11 @@ import '../../../utils/remove_focus.dart';
 
 class ColorPickerField extends StatefulWidget {
   final Function(Color) onColorChanged;
+  final Color? initialColor;
 
   const ColorPickerField({
     required this.onColorChanged,
+    this.initialColor,
     super.key,
   });
 
@@ -18,6 +20,12 @@ class ColorPickerField extends StatefulWidget {
 class _ColorPickerFieldState extends State<ColorPickerField> {
   Color pickerColor = const Color(0xff443a49);
   Color? currentColor;
+
+  @override
+  void initState() {
+    currentColor ??= widget.initialColor;
+    super.initState();
+  }
 
   // ValueChanged<Color> callback
   void changeColor(Color color) {

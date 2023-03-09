@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../constants/values.dart';
 import '../../../../data/models/product/product.dart';
-import '../../../lote_list/views/widgets/lote_tile.dart';
 import '../../controllers/product_view_controller.dart';
 import 'storage_list_bar.dart';
 import 'storage_lote_list.dart';
