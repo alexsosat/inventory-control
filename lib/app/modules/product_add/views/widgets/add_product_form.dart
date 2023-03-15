@@ -47,10 +47,12 @@ class _ProductAddFormState extends State<ProductAddForm> {
           RoundedFormCard(
             children: [
               ColorPickerField(
+                initialColor: controller.color,
                 onColorChanged: (color) => controller.color = color,
               ),
               const SizedBox(height: 10),
               ProductPresentationTile(
+                initialPresentations: controller.presentations,
                 onProductPresentationChanged: (presentations) =>
                     controller.presentations = presentations,
               ),

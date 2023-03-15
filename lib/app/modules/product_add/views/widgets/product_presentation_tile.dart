@@ -6,11 +6,13 @@ import '../../../../data/models/product_presentation/product_presentation.dart';
 import '../../../../routes/app_pages.dart';
 
 class ProductPresentationTile extends StatefulWidget {
+  final List<ProductPresentation>? initialPresentations;
   final Function(List<ProductPresentation> presentations)
       onProductPresentationChanged;
 
   const ProductPresentationTile({
     required this.onProductPresentationChanged,
+    this.initialPresentations,
     super.key,
   });
 
@@ -21,6 +23,12 @@ class ProductPresentationTile extends StatefulWidget {
 
 class _ProductPresentationTileState extends State<ProductPresentationTile> {
   List<ProductPresentation> _productPresentations = [];
+
+  @override
+  void initState() {
+    _productPresentations = widget.initialPresentations ?? [];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +69,7 @@ class _ProductPresentationTileState extends State<ProductPresentationTile> {
 
         final presentations = await Get.toNamed(
               Routes.PRODUCT_PRESENTATION_LIST,
+              arguments: _productPresentations,
             ) ??
             [];
 

@@ -27,9 +27,31 @@ class ProductProvider {
   Future<int> addProduct(Product product) async => isar.writeTxn<int>(
         () async {
           final productId = await isar.products.put(product);
+
+          final tempTags = product.tags.toList();
+          final tempPresentations = product.presentations.toList();
+
+          await product.tags.reset();
+          await product.presentations.reset();
+
+          for (final tag in tempTags) {
+            product.tags.add(tag);
+          }
+          for (final presentation in tempPresentations) {
+            product.presentations.add(presentation);
+          }
+
           await product.tags.save();
           await product.presentations.save();
           return productId;
         },
+      );
+
+  /// Deletes a product from the database.
+  ///
+  /// Args:
+  ///  productId (int): The id of the product to be deleted.
+  Future<void> deleteProduct(int productId) async => isar.writeTxn(
+        () async => isar.products.delete(productId),
       );
 }

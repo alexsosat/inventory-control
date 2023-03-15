@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:inventory_control/app/modules/product_view/views/widgets/product_info.dart';
-import 'package:inventory_control/global/texts/description_data.dart';
+import 'widgets/product_info.dart';
+import 'widgets/product_pop_up_menu.dart';
+import '../../../../global/texts/description_data.dart';
 
 import '../controllers/product_view_controller.dart';
 import 'widgets/product_lotes_report.dart';
@@ -15,6 +16,7 @@ class ProductViewView extends GetView<ProductViewController> {
       appBar: AppBar(
         title: Text(controller.product.name.capitalize!),
         centerTitle: false,
+        actions: const [ProductPopUpMenu()],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),

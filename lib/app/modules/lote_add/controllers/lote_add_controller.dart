@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
-import 'package:inventory_control/app/modules/lote_view/controllers/lote_view_controller.dart';
 
 import '../../../../global/overlays/dialog/dialog.dart';
 import '../../../../services/local_database/call_function.dart';

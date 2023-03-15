@@ -7,7 +7,9 @@ class ProductPresentationListController extends GetxController
     with StateMixin<List<ProductPresentation>> {
   final _provider = ProductPresentationProvider();
 
-  List<ProductPresentation> selectedPresentations = List.empty(growable: true);
+  List<ProductPresentation> selectedPresentations;
+
+  ProductPresentationListController(this.selectedPresentations);
 
   @override
   void onInit() {

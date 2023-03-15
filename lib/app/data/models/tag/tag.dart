@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:isar/isar.dart';
 
 import '../product/product.dart';
@@ -34,5 +35,10 @@ class Tag {
   @override
   int get hashCode {
     return id.hashCode ^ name.hashCode ^ description.hashCode ^ icon.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'Tag(id: $id, name: $name, description: $description, icon: $icon)';
   }
 }

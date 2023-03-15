@@ -5,7 +5,7 @@ import 'package:flutter_iconpicker/Serialization/iconDataSerialization.dart';
 import 'package:get/get.dart';
 import 'package:group_button/group_button.dart';
 import 'package:inventory_control/constants/values.dart';
-import '../../../app/modules/tag_list/controllers/tag_list_controller.dart';
+import '../../../app/modules/product_list/controllers/tag_filter_controller.dart';
 
 import '../../../app/data/models/tag/tag.dart';
 
@@ -24,12 +24,12 @@ class TagFilterSection extends StatefulWidget {
 }
 
 class _TagFilterSectionState extends State<TagFilterSection> {
-  late TagListController _tagListController;
+  late TagFilterController _tagListController;
   final controller = GroupButtonController();
 
   @override
   void initState() {
-    _tagListController = Get.find<TagListController>();
+    _tagListController = Get.find<TagFilterController>();
     super.initState();
   }
 
