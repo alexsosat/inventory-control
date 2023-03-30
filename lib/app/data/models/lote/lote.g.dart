@@ -47,13 +47,18 @@ const LoteSchema = CollectionSchema(
       name: r'loteUID',
       type: IsarType.string,
     ),
-    r'quantity': PropertySchema(
+    r'place': PropertySchema(
       id: 6,
+      name: r'place',
+      type: IsarType.string,
+    ),
+    r'quantity': PropertySchema(
+      id: 7,
       name: r'quantity',
       type: IsarType.double,
     ),
     r'status': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'status',
       type: IsarType.byte,
       enumMap: _LotestatusEnumValueMap,
@@ -101,6 +106,7 @@ int _loteEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.hexColor.length * 3;
   bytesCount += 3 + object.loteUID.length * 3;
+  bytesCount += 3 + object.place.length * 3;
   return bytesCount;
 }
 
@@ -116,8 +122,9 @@ void _loteSerialize(
   writer.writeLong(offsets[3], object.hashCode);
   writer.writeString(offsets[4], object.hexColor);
   writer.writeString(offsets[5], object.loteUID);
-  writer.writeDouble(offsets[6], object.quantity);
-  writer.writeByte(offsets[7], object.status.index);
+  writer.writeString(offsets[6], object.place);
+  writer.writeDouble(offsets[7], object.quantity);
+  writer.writeByte(offsets[8], object.status.index);
 }
 
 Lote _loteDeserialize(
@@ -132,8 +139,9 @@ Lote _loteDeserialize(
     dateManufacture: reader.readDateTime(offsets[2]),
     hexColor: reader.readString(offsets[4]),
     loteUID: reader.readString(offsets[5]),
-    quantity: reader.readDouble(offsets[6]),
-    status: _LotestatusValueEnumMap[reader.readByteOrNull(offsets[7])] ??
+    place: reader.readString(offsets[6]),
+    quantity: reader.readDouble(offsets[7]),
+    status: _LotestatusValueEnumMap[reader.readByteOrNull(offsets[8])] ??
         LoteStatus.good,
   );
   object.id = id;
@@ -160,8 +168,10 @@ P _loteDeserializeProp<P>(
     case 5:
       return (reader.readString(offset)) as P;
     case 6:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 7:
+      return (reader.readDouble(offset)) as P;
+    case 8:
       return (_LotestatusValueEnumMap[reader.readByteOrNull(offset)] ??
           LoteStatus.good) as P;
     default:
@@ -792,6 +802,134 @@ extension LoteQueryFilter on QueryBuilder<Lote, Lote, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> placeEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'place',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> placeGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'place',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> placeLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'place',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> placeBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'place',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> placeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'place',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> placeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'place',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> placeContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'place',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> placeMatches(String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'place',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> placeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'place',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterFilterCondition> placeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'place',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Lote, Lote, QAfterFilterCondition> quantityEqualTo(
     double value, {
     double epsilon = Query.epsilon,
@@ -1024,6 +1162,18 @@ extension LoteQuerySortBy on QueryBuilder<Lote, Lote, QSortBy> {
     });
   }
 
+  QueryBuilder<Lote, Lote, QAfterSortBy> sortByPlace() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'place', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterSortBy> sortByPlaceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'place', Sort.desc);
+    });
+  }
+
   QueryBuilder<Lote, Lote, QAfterSortBy> sortByQuantity() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'quantity', Sort.asc);
@@ -1134,6 +1284,18 @@ extension LoteQuerySortThenBy on QueryBuilder<Lote, Lote, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Lote, Lote, QAfterSortBy> thenByPlace() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'place', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Lote, Lote, QAfterSortBy> thenByPlaceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'place', Sort.desc);
+    });
+  }
+
   QueryBuilder<Lote, Lote, QAfterSortBy> thenByQuantity() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'quantity', Sort.asc);
@@ -1198,6 +1360,13 @@ extension LoteQueryWhereDistinct on QueryBuilder<Lote, Lote, QDistinct> {
     });
   }
 
+  QueryBuilder<Lote, Lote, QDistinct> distinctByPlace(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'place', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Lote, Lote, QDistinct> distinctByQuantity() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'quantity');
@@ -1251,6 +1420,12 @@ extension LoteQueryProperty on QueryBuilder<Lote, Lote, QQueryProperty> {
   QueryBuilder<Lote, String, QQueryOperations> loteUIDProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'loteUID');
+    });
+  }
+
+  QueryBuilder<Lote, String, QQueryOperations> placeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'place');
     });
   }
 

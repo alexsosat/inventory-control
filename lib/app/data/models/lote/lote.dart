@@ -13,6 +13,7 @@ class Lote {
   Id id = Isar.autoIncrement;
 
   String loteUID;
+  String place;
 
   String hexColor;
   double quantity;
@@ -33,6 +34,7 @@ class Lote {
 
   Lote({
     required this.loteUID,
+    required this.place,
     required this.hexColor,
     required this.quantity,
     required this.dateManufacture,
@@ -47,6 +49,7 @@ class Lote {
 
     return other.id == id &&
         other.loteUID == loteUID &&
+        other.place == place &&
         other.hexColor == hexColor &&
         other.quantity == quantity &&
         other.dateManufacture == dateManufacture &&
@@ -58,6 +61,7 @@ class Lote {
   int get hashCode {
     return id.hashCode ^
         loteUID.hashCode ^
+        place.hashCode ^
         hexColor.hashCode ^
         quantity.hashCode ^
         dateManufacture.hashCode ^
@@ -67,11 +71,12 @@ class Lote {
 
   @override
   String toString() {
-    return 'Lote(id: $id, loteUID: $loteUID, hexColor: $hexColor, quantity: $quantity, dateManufacture: $dateManufacture, dateExpiration: $dateExpiration, dateCreated: $dateCreated)';
+    return 'Lote(id: $id, loteUID: $loteUID, place: $place ,hexColor: $hexColor, quantity: $quantity, dateManufacture: $dateManufacture, dateExpiration: $dateExpiration, dateCreated: $dateCreated)';
   }
 
   Lote copyWith({
     String? loteUID,
+    String? place,
     String? hexColor,
     double? quantity,
     DateTime? dateManufacture,
@@ -80,6 +85,7 @@ class Lote {
   }) {
     return Lote(
       loteUID: loteUID ?? this.loteUID,
+      place: place ?? this.place,
       hexColor: hexColor ?? this.hexColor,
       quantity: quantity ?? this.quantity,
       dateManufacture: dateManufacture ?? this.dateManufacture,

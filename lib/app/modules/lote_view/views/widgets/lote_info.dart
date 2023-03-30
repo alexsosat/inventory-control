@@ -26,6 +26,11 @@ class LoteInfo extends StatelessWidget {
         ),
         const Divider(),
         RowData(
+          title: "Lugar de almacenamiento",
+          value: lote.place,
+        ),
+        const Divider(),
+        RowData(
           title: "Cantidad",
           value: lote.quantity.toString(),
         ),

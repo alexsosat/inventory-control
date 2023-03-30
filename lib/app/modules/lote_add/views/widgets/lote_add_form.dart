@@ -38,6 +38,11 @@ class _LoteAddFormState extends State<LoteAddForm> {
             labelText: 'Número de registro del lote',
           ),
           const SizedBox(height: 20),
+          TextFormFieldRounded(
+            controller: controller.placeController,
+            labelText: 'Lugar de almacenamiento',
+          ),
+          const SizedBox(height: 20),
           StorageBottomSheet(
             initialItem: controller.storage,
             onChanged: (storage) => controller.storage = storage,

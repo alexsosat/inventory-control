@@ -19,6 +19,7 @@ class LoteAddController extends GetxController {
   final formKey = GlobalKey<FormState>(debugLabel: '_AddProductFormState');
 
   final TextEditingController loteUIDController = TextEditingController();
+  final TextEditingController placeController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
 
   Color color = Colors.blueGrey;
@@ -45,6 +46,7 @@ class LoteAddController extends GetxController {
     } else if (arguments is Lote) {
       final lote = arguments;
       loteUIDController.text = lote.loteUID;
+      placeController.text = lote.place;
       quantityController.text = lote.quantity.toString();
       color = colorFromHex(lote.hexColor) ?? Colors.blueGrey;
       manufacturedDate = lote.dateManufacture;
@@ -60,6 +62,7 @@ class LoteAddController extends GetxController {
         ? Get.arguments as Lote
         : Lote(
             loteUID: loteUIDController.text.trim(),
+            place: placeController.text.trim(),
             dateExpiration: expirationDate!,
             dateManufacture: manufacturedDate!,
             dateCreated: DateTime.now(),
@@ -69,6 +72,7 @@ class LoteAddController extends GetxController {
           );
 
     lote.loteUID = loteUIDController.text.trim();
+    lote.place = placeController.text.trim();
     lote.dateExpiration = expirationDate!;
     lote.dateManufacture = manufacturedDate!;
     lote.dateCreated = DateTime.now();

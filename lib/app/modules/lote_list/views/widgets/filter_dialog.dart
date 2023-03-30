@@ -6,6 +6,7 @@ import '../../../../../global/buttons/group_buttons/tag_buttons.dart';
 import '../../../../../global/form/dropdowns/date_asc_desc_dropdown.dart';
 import '../../../../../global/form/dropdowns/lote_date_order_dropdown.dart';
 import '../../../../../utils/color.dart';
+import '../../../product_list/controllers/tag_filter_controller.dart';
 import '../../../tag_list/controllers/tag_list_controller.dart';
 import '../../controllers/lote_list_controller.dart';
 import '../../controllers/lote_search_controller.dart';
@@ -30,8 +31,8 @@ class _LoteFilterDialogState extends State<LoteFilterDialog> {
     controller = Get.put<LoteSearchController>(
       LoteSearchController(),
     );
-    Get.lazyPut<TagListController>(
-      () => TagListController([]),
+    Get.lazyPut<TagFilterController>(
+      () => TagFilterController([]),
     );
     super.initState();
   }
