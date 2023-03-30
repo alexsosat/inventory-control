@@ -34,6 +34,12 @@ class LoteProvider {
   Future<int> getLotesByStatusCount(LoteStatus status) async =>
       await isar.lotes.filter().statusEqualTo(status).count();
 
+  /// Get all the lots by loteUID.
+  /// Args:
+  /// loteUID (String): The loteUID.
+  Future<List<Lote>> getLotesByLoteUID(String loteUID) async =>
+      await isar.lotes.filter().loteUIDEqualTo(loteUID).findAll();
+
   /// Adds a Lote to the database
   Future<int> addLote(Lote lote) async => isar.writeTxn<int>(
         () async {

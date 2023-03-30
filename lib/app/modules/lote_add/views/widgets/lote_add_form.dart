@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:inventory_control/global/form/bottomsheets/product_presentation_bottomsheet.dart';
-import 'package:inventory_control/global/form/pickers/date_picker.dart';
+import '../../../barcode_scanner/controllers/barcode_scanner_controller.dart';
+import '../../../../../global/form/bottomsheets/product_presentation_bottomsheet.dart';
+import '../../../../../global/form/pickers/date_picker.dart';
 
 import '../../../../../global/card/rounded_form_card.dart';
 import '../../../../../global/form/bottomsheets/product_bottomsheet.dart';
@@ -33,9 +35,27 @@ class _LoteAddFormState extends State<LoteAddForm> {
       key: controller.formKey,
       child: Column(
         children: [
-          TextFormFieldRounded(
-            controller: controller.loteUIDController,
-            labelText: 'Número de registro del lote',
+          Row(
+            children: [
+              Expanded(
+                child: TextFormFieldRounded(
+                  controller: controller.loteUIDController,
+                  labelText: 'Número de registro del lote',
+                ),
+              ),
+              const SizedBox(width: 5),
+              IconButton(
+                onPressed: () async {
+                  final barcode =
+                      await Get.find<BarcodeScannerController>().scanBarcode();
+
+                  if (barcode == null) return;
+
+                  controller.loteUIDController.text = barcode;
+                },
+                icon: const FaIcon(FontAwesomeIcons.barcode, size: 20),
+              ),
+            ],
           ),
           const SizedBox(height: 20),
           TextFormFieldRounded(

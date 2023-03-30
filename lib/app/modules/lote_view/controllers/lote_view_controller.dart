@@ -36,7 +36,9 @@ class LoteViewController extends GetxController {
       message: "La cantidad del lote se ha disminuido correctamente",
       type: DialogType.success,
       onConfirm: () {
-        Get.find<LoteListController>().loadLotes();
+        if (Get.isRegistered<LoteListController>()) {
+          Get.find<LoteListController>().loadLotes();
+        }
         Get.find<StorageListController>().loadData();
         Get.find<HomeController>().loadData();
         Get.back();
@@ -86,7 +88,9 @@ class LoteViewController extends GetxController {
       message: "El lote se ha traspasado correctamente",
       type: DialogType.success,
       onConfirm: () {
-        Get.find<LoteListController>().loadLotes();
+        if (Get.isRegistered<LoteListController>()) {
+          Get.find<LoteListController>().loadLotes();
+        }
         Get.find<StorageListController>().loadData();
         Get.find<HomeController>().loadData();
         Get.back();
@@ -106,7 +110,9 @@ class LoteViewController extends GetxController {
       message: "El lote se ha eliminado correctamente",
       type: DialogType.success,
       onConfirm: () {
-        Get.find<LoteListController>().loadLotes();
+        if (Get.isRegistered<LoteListController>()) {
+          Get.find<LoteListController>().loadLotes();
+        }
         Get.find<StorageListController>().loadData();
         Get.find<HomeController>().loadData();
         Get.back();

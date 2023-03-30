@@ -92,7 +92,9 @@ class LoteAddController extends GetxController {
         title: "Se registró el lote",
         type: DialogType.success,
         onConfirm: () {
-          Get.find<LoteListController>().loadLotes();
+          if (Get.isRegistered<LoteListController>()) {
+            Get.find<LoteListController>().loadLotes();
+          }
           Get.find<HomeController>().loadData();
           Get.find<StorageListController>().loadData();
 

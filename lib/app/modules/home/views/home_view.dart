@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import '../../barcode_scanner/controllers/barcode_scanner_controller.dart';
 
 import '../../../routes/app_pages.dart';
 import 'sections/staggered_glance_section.dart';
@@ -15,6 +17,10 @@ class HomeView extends StatelessWidget {
         title: const Text('Bienvenido'),
         centerTitle: false,
         actions: [
+          IconButton(
+            onPressed: () => Get.find<BarcodeScannerController>().searchLotes(),
+            icon: const FaIcon(FontAwesomeIcons.barcode, size: 20),
+          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.notifications_outlined),
