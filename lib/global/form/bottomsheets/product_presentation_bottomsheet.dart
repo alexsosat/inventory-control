@@ -23,7 +23,7 @@ class ProductPresentationBottomSheet extends StatelessWidget {
       initialItem: initialPresentation,
       asyncItems: (_) =>
           ProductPresentationProvider().getPresentationsByProductId(productId),
-      itemAsString: (presentation) => presentation.name,
+      itemAsString: (presentation) => presentation.fullString,
       leadingIcon: Icons.inventory_2_outlined,
       onChanged: (value) {
         onChanged(value);

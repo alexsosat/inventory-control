@@ -13,7 +13,9 @@ class ProductAddView extends GetView<ProductAddController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Añadir Producto'),
+        title: Text(
+          !controller.isEditing ? 'Añadir Producto' : 'Editar Producto',
+        ),
         centerTitle: false,
       ),
       body: const SingleChildScrollView(

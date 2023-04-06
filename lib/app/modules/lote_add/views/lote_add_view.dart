@@ -12,7 +12,9 @@ class LoteAddView extends GetView<LoteAddController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Añadir Lote'),
+        title: Text(
+          !controller.isEditing ? 'Añadir Lote' : 'Editar Lote',
+        ),
         centerTitle: false,
       ),
       body: const SingleChildScrollView(

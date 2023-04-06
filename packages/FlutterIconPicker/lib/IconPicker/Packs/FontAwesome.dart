@@ -1820,7 +1820,7 @@ Map<String, IconData> fontAwesomeIcons = {
   /// Solid Child Rifle icon
   ///
   /// https://fontawesome.com/icons/child-rifle?style=solid
-  'childRifle': FontAwesomeIcons.childRifle,
+  'childRifle': FontAwesomeIcons.childCombatant,
 
   /// Solid Children icon
   ///

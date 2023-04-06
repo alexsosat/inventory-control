@@ -33,6 +33,8 @@ class LoteAddController extends GetxController {
 
   LoteAddController();
 
+  bool isEditing = Get.arguments is Lote;
+
   @override
   void onInit() {
     getInitialData();

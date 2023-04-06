@@ -7,7 +7,6 @@ import '../../../../../global/form/dropdowns/date_asc_desc_dropdown.dart';
 import '../../../../../global/form/dropdowns/lote_date_order_dropdown.dart';
 import '../../../../../utils/color.dart';
 import '../../../product_list/controllers/tag_filter_controller.dart';
-import '../../../tag_list/controllers/tag_list_controller.dart';
 import '../../controllers/lote_list_controller.dart';
 import '../../controllers/lote_search_controller.dart';
 import '../../models/lote_list_search_model.dart';

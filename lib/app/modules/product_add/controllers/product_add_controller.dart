@@ -23,6 +23,8 @@ class ProductAddController extends GetxController {
   List<ProductPresentation> presentations = [];
   Color color = Colors.blueGrey;
 
+  bool isEditing = Get.arguments is Product;
+
   @override
   void onInit() {
     _initData();
