@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../global/form/bottomsheets/measure_unit_bottomsheet.dart';
 import '../../../../../global/form/text_form_field_rounded.dart';
 import '../../controllers/product_presentation_add_controller.dart';
 
@@ -30,16 +31,14 @@ class _ProductPresentationAddFormState
         children: [
           TextFormFieldRounded(
             controller: controller.nameController,
-            labelText: 'Nombre',
+            labelText: 'Cantidad',
+            inputType: const TextInputType.numberWithOptions(
+              decimal: true,
+            ),
           ),
           const SizedBox(height: 20),
-          TextFormFieldRounded(
-            controller: controller.descriptionController,
-            isRequired: false,
-            labelText: 'Descripción',
-            maxLines: 5,
-            inputType: TextInputType.multiline,
-            inputAction: TextInputAction.newline,
+          MeasureUnitBottomSheet(
+            onChanged: (measureUnit) => controller.measureUnit = measureUnit,
           ),
         ],
       ),

@@ -38,7 +38,7 @@ class _ProductAddFormState extends State<ProductAddForm> {
           TextFormFieldRounded(
             controller: controller.descriptionController,
             isRequired: false,
-            labelText: 'Descripción',
+            labelText: 'Ingrediente activo',
             maxLines: 5,
             inputType: TextInputType.multiline,
             inputAction: TextInputAction.newline,

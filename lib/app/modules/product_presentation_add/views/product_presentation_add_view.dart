@@ -13,7 +13,7 @@ class ProductPresentationAddView
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Crear etiqueta'),
+        title: const Text('Crear presentación'),
         centerTitle: false,
       ),
       body: const SingleChildScrollView(
@@ -28,7 +28,7 @@ class ProductPresentationAddView
           if (controller.formKey.currentState!.validate()) {
             openDialogWindow(
               title:
-                  "¿Deseas registrar la presentación ${controller.nameController.text}?",
+                  "¿Deseas registrar la presentación ${controller.nameController.text} ${controller.measureUnit!.name}?",
               type: DialogType.info,
               onConfirm: () => controller.savePresentation(),
               onCancel: () {},

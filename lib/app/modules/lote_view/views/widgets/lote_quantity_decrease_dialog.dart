@@ -37,7 +37,7 @@ class _LoteQuantityDecreaseDialogState
         key: _formKey,
         child: TextFormFieldRounded(
           controller: quantityController,
-          labelText: 'Cantidad',
+          labelText: 'Unidades vendidas',
           inputAction: TextInputAction.done,
           inputType: const TextInputType.numberWithOptions(
             decimal: true,

@@ -16,7 +16,7 @@ class ProductPresentationPickerList
       itemCount: productPresentations.length,
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       itemBuilder: (context, i) => IconCheckBoxTile(
-        title: productPresentations[i].name,
+        title: productPresentations[i].fullString,
         icon: Icons.inventory_2_outlined,
         initialValue:
             controller.selectedPresentations.contains(productPresentations[i]),

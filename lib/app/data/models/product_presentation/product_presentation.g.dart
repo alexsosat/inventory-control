@@ -18,9 +18,9 @@ const ProductPresentationSchema = CollectionSchema(
   name: r'ProductPresentation',
   id: -2040601489287142537,
   properties: {
-    r'description': PropertySchema(
+    r'fullString': PropertySchema(
       id: 0,
-      name: r'description',
+      name: r'fullString',
       type: IsarType.string,
     ),
     r'hashCode': PropertySchema(
@@ -32,6 +32,12 @@ const ProductPresentationSchema = CollectionSchema(
       id: 2,
       name: r'name',
       type: IsarType.string,
+    ),
+    r'unit': PropertySchema(
+      id: 3,
+      name: r'unit',
+      type: IsarType.byte,
+      enumMap: _ProductPresentationunitEnumValueMap,
     )
   },
   estimateSize: _productPresentationEstimateSize,
@@ -54,12 +60,7 @@ int _productPresentationEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.description;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.fullString.length * 3;
   bytesCount += 3 + object.name.length * 3;
   return bytesCount;
 }
@@ -70,9 +71,10 @@ void _productPresentationSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.description);
+  writer.writeString(offsets[0], object.fullString);
   writer.writeLong(offsets[1], object.hashCode);
   writer.writeString(offsets[2], object.name);
+  writer.writeByte(offsets[3], object.unit.index);
 }
 
 ProductPresentation _productPresentationDeserialize(
@@ -82,8 +84,10 @@ ProductPresentation _productPresentationDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ProductPresentation(
-    description: reader.readStringOrNull(offsets[0]),
     name: reader.readString(offsets[2]),
+    unit: _ProductPresentationunitValueEnumMap[
+            reader.readByteOrNull(offsets[3])] ??
+        MeasureUnit.kg,
   );
   object.id = id;
   return object;
@@ -97,15 +101,32 @@ P _productPresentationDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
       return (reader.readLong(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
+    case 3:
+      return (_ProductPresentationunitValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          MeasureUnit.kg) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _ProductPresentationunitEnumValueMap = {
+  'kg': 0,
+  'g': 1,
+  'l': 2,
+  'ml': 3,
+};
+const _ProductPresentationunitValueEnumMap = {
+  0: MeasureUnit.kg,
+  1: MeasureUnit.g,
+  2: MeasureUnit.l,
+  3: MeasureUnit.ml,
+};
 
 Id _productPresentationGetId(ProductPresentation object) {
   return object.id;
@@ -204,31 +225,13 @@ extension ProductPresentationQueryWhere
 extension ProductPresentationQueryFilter on QueryBuilder<ProductPresentation,
     ProductPresentation, QFilterCondition> {
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'description',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'description',
-      ));
-    });
-  }
-
-  QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionEqualTo(
-    String? value, {
+      fullStringEqualTo(
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'description',
+        property: r'fullString',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -236,15 +239,15 @@ extension ProductPresentationQueryFilter on QueryBuilder<ProductPresentation,
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionGreaterThan(
-    String? value, {
+      fullStringGreaterThan(
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'description',
+        property: r'fullString',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -252,15 +255,15 @@ extension ProductPresentationQueryFilter on QueryBuilder<ProductPresentation,
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionLessThan(
-    String? value, {
+      fullStringLessThan(
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'description',
+        property: r'fullString',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -268,16 +271,16 @@ extension ProductPresentationQueryFilter on QueryBuilder<ProductPresentation,
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionBetween(
-    String? lower,
-    String? upper, {
+      fullStringBetween(
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'description',
+        property: r'fullString',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -288,13 +291,13 @@ extension ProductPresentationQueryFilter on QueryBuilder<ProductPresentation,
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionStartsWith(
+      fullStringStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'description',
+        property: r'fullString',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -302,13 +305,13 @@ extension ProductPresentationQueryFilter on QueryBuilder<ProductPresentation,
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionEndsWith(
+      fullStringEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'description',
+        property: r'fullString',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -316,10 +319,10 @@ extension ProductPresentationQueryFilter on QueryBuilder<ProductPresentation,
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionContains(String value, {bool caseSensitive = true}) {
+      fullStringContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'description',
+        property: r'fullString',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -327,10 +330,10 @@ extension ProductPresentationQueryFilter on QueryBuilder<ProductPresentation,
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionMatches(String pattern, {bool caseSensitive = true}) {
+      fullStringMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'description',
+        property: r'fullString',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
@@ -338,20 +341,20 @@ extension ProductPresentationQueryFilter on QueryBuilder<ProductPresentation,
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionIsEmpty() {
+      fullStringIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'description',
+        property: r'fullString',
         value: '',
       ));
     });
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
-      descriptionIsNotEmpty() {
+      fullStringIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'description',
+        property: r'fullString',
         value: '',
       ));
     });
@@ -604,6 +607,62 @@ extension ProductPresentationQueryFilter on QueryBuilder<ProductPresentation,
       ));
     });
   }
+
+  QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
+      unitEqualTo(MeasureUnit value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'unit',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
+      unitGreaterThan(
+    MeasureUnit value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'unit',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
+      unitLessThan(
+    MeasureUnit value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'unit',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProductPresentation, ProductPresentation, QAfterFilterCondition>
+      unitBetween(
+    MeasureUnit lower,
+    MeasureUnit upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'unit',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension ProductPresentationQueryObject on QueryBuilder<ProductPresentation,
@@ -615,16 +674,16 @@ extension ProductPresentationQueryLinks on QueryBuilder<ProductPresentation,
 extension ProductPresentationQuerySortBy
     on QueryBuilder<ProductPresentation, ProductPresentation, QSortBy> {
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterSortBy>
-      sortByDescription() {
+      sortByFullString() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.asc);
+      return query.addSortBy(r'fullString', Sort.asc);
     });
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterSortBy>
-      sortByDescriptionDesc() {
+      sortByFullStringDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.desc);
+      return query.addSortBy(r'fullString', Sort.desc);
     });
   }
 
@@ -655,21 +714,35 @@ extension ProductPresentationQuerySortBy
       return query.addSortBy(r'name', Sort.desc);
     });
   }
+
+  QueryBuilder<ProductPresentation, ProductPresentation, QAfterSortBy>
+      sortByUnit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unit', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProductPresentation, ProductPresentation, QAfterSortBy>
+      sortByUnitDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unit', Sort.desc);
+    });
+  }
 }
 
 extension ProductPresentationQuerySortThenBy
     on QueryBuilder<ProductPresentation, ProductPresentation, QSortThenBy> {
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterSortBy>
-      thenByDescription() {
+      thenByFullString() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.asc);
+      return query.addSortBy(r'fullString', Sort.asc);
     });
   }
 
   QueryBuilder<ProductPresentation, ProductPresentation, QAfterSortBy>
-      thenByDescriptionDesc() {
+      thenByFullStringDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.desc);
+      return query.addSortBy(r'fullString', Sort.desc);
     });
   }
 
@@ -714,14 +787,28 @@ extension ProductPresentationQuerySortThenBy
       return query.addSortBy(r'name', Sort.desc);
     });
   }
+
+  QueryBuilder<ProductPresentation, ProductPresentation, QAfterSortBy>
+      thenByUnit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unit', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProductPresentation, ProductPresentation, QAfterSortBy>
+      thenByUnitDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unit', Sort.desc);
+    });
+  }
 }
 
 extension ProductPresentationQueryWhereDistinct
     on QueryBuilder<ProductPresentation, ProductPresentation, QDistinct> {
   QueryBuilder<ProductPresentation, ProductPresentation, QDistinct>
-      distinctByDescription({bool caseSensitive = true}) {
+      distinctByFullString({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'fullString', caseSensitive: caseSensitive);
     });
   }
 
@@ -738,6 +825,13 @@ extension ProductPresentationQueryWhereDistinct
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
     });
   }
+
+  QueryBuilder<ProductPresentation, ProductPresentation, QDistinct>
+      distinctByUnit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'unit');
+    });
+  }
 }
 
 extension ProductPresentationQueryProperty
@@ -748,10 +842,10 @@ extension ProductPresentationQueryProperty
     });
   }
 
-  QueryBuilder<ProductPresentation, String?, QQueryOperations>
-      descriptionProperty() {
+  QueryBuilder<ProductPresentation, String, QQueryOperations>
+      fullStringProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'description');
+      return query.addPropertyName(r'fullString');
     });
   }
 
@@ -764,6 +858,13 @@ extension ProductPresentationQueryProperty
   QueryBuilder<ProductPresentation, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
+    });
+  }
+
+  QueryBuilder<ProductPresentation, MeasureUnit, QQueryOperations>
+      unitProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'unit');
     });
   }
 }

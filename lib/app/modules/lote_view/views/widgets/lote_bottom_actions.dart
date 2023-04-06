@@ -109,7 +109,7 @@ class LoteBottomActions extends StatelessWidget {
                   SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      "Restar cantidad",
+                      "Venta de unidad",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,

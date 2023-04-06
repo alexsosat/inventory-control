@@ -13,7 +13,7 @@ class ProductPresentationAddController extends GetxController {
   final formKey = GlobalKey<FormState>(debugLabel: '_AddTagFormState');
 
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  MeasureUnit? measureUnit;
 
   savePresentation() {
     baseActionCall(
@@ -21,11 +21,12 @@ class ProductPresentationAddController extends GetxController {
       call: () => _provider.addPresentation(
         ProductPresentation(
           name: nameController.text,
-          description: descriptionController.text,
+          unit: measureUnit!,
         ),
       ),
       onSuccess: (_) => openDialogWindow(
-        title: "Se registro la presentación ${nameController.text}",
+        title:
+            "Se registro la presentación ${nameController.text} ${measureUnit!.name}",
         type: DialogType.success,
         onConfirm: () => {
           Get.find<ProductPresentationListController>().loadPresentations(),
