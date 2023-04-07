@@ -19,7 +19,7 @@ class HomeController extends GetxController with StateMixin {
     _calculateData();
   }
 
-  void loadData() async {
+  Future loadData() async {
     change(null, status: RxStatus.loading());
     try {
       registeredProducts = await _productProvider.getProductCount();
@@ -34,19 +34,19 @@ class HomeController extends GetxController with StateMixin {
     }
   }
 
-  void _calculateData() {
+  void _calculateData() async {
     try {
-      _checkCloseToExpireLotes();
-      _checkGoodLotes();
+      await _checkCloseToExpireLotes();
+      await _checkGoodLotes();
 
-      loadData();
+      await loadData();
     } catch (e) {
       change(null, status: RxStatus.error(e.toString()));
     }
   }
 
   /// Moves Lotes from close to expire to expired
-  void _checkCloseToExpireLotes() async {
+  Future<void> _checkCloseToExpireLotes() async {
     try {
       final closeToExpireLotes =
           await _lotesProvider.getLotesByStatus(LoteStatus.toExpire);
@@ -65,12 +65,18 @@ class HomeController extends GetxController with StateMixin {
 
   /// Moves Lotes from good to close to expire
   /// if the date is before 90 days from now
-  void _checkGoodLotes() async {
+  Future<void> _checkGoodLotes() async {
     try {
       final goodLotes = await _lotesProvider.getLotesByStatus(LoteStatus.good);
+
       for (Lote lote in goodLotes) {
-        if (lote.dateExpiration
-            .isBefore(DateTime.now().subtract(const Duration(days: 90)))) {
+        if (lote.dateExpiration.isBefore(DateTime.now())) {
+          _lotesProvider.updateLoteStatus(
+            lote: lote,
+            moveTo: LoteStatus.expired,
+          );
+        } else if (lote.dateExpiration
+            .isBefore(DateTime.now().add(const Duration(days: 90)))) {
           _lotesProvider.updateLoteStatus(
             lote: lote,
             moveTo: LoteStatus.toExpire,
