@@ -17,6 +17,7 @@ abstract class Routes {
   static const LOTE_VIEW = _Paths.LOTE_VIEW;
   static const PRODUCT_LIST = _Paths.PRODUCT_LIST;
   static const PRODUCT_VIEW = _Paths.PRODUCT_VIEW;
+  static const NOTIFICATION_LIST = _Paths.NOTIFICATION_LIST;
 }
 
 abstract class _Paths {
@@ -33,4 +34,5 @@ abstract class _Paths {
   static const LOTE_VIEW = '/lote-view';
   static const PRODUCT_LIST = '/product-list';
   static const PRODUCT_VIEW = '/product-view';
+  static const NOTIFICATION_LIST = '/notification-list';
 }

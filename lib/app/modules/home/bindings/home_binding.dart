@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../../barcode_scanner/controllers/barcode_scanner_controller.dart';
 import '../controllers/home_controller.dart';
+import '../controllers/notification_count_controller.dart';
 import '../controllers/storage_list_controller.dart';
 
 class HomeBinding extends Bindings {
@@ -15,6 +16,9 @@ class HomeBinding extends Bindings {
     );
     Get.lazyPut<BarcodeScannerController>(
       () => BarcodeScannerController(),
+    );
+    Get.lazyPut<NotificationCountController>(
+      () => NotificationCountController(),
     );
   }
 }

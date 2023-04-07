@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:get/get.dart';
 
 import '../modules/home/bindings/home_binding.dart';
@@ -10,6 +8,8 @@ import '../modules/lote_list/bindings/lote_list_binding.dart';
 import '../modules/lote_list/views/lote_list_view.dart';
 import '../modules/lote_view/bindings/lote_view_binding.dart';
 import '../modules/lote_view/views/lote_view_view.dart';
+import '../modules/notification_list/bindings/notification_list_binding.dart';
+import '../modules/notification_list/views/notification_list_view.dart';
 import '../modules/product_add/bindings/product_add_binding.dart';
 import '../modules/product_add/views/product_add_view.dart';
 import '../modules/product_list/bindings/product_list_binding.dart';
@@ -26,6 +26,8 @@ import '../modules/tag_add/bindings/tag_add_binding.dart';
 import '../modules/tag_add/views/tag_add_view.dart';
 import '../modules/tag_list/bindings/tag_list_binding.dart';
 import '../modules/tag_list/views/tag_list_view.dart';
+
+// ignore_for_file: constant_identifier_names
 
 part 'app_routes.dart';
 
@@ -94,6 +96,11 @@ class AppPages {
       name: _Paths.PRODUCT_VIEW,
       page: () => const ProductViewView(),
       binding: ProductViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATION_LIST,
+      page: () => const NotificationListView(),
+      binding: NotificationListBinding(),
     ),
   ];
 }
