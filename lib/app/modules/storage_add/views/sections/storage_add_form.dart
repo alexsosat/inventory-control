@@ -45,6 +45,7 @@ class _StorageAddFormState extends State<StorageAddForm> {
           RoundedFormCard(
             children: [
               ColorPickerField(
+                initialColor: controller.color,
                 onColorChanged: (color) => controller.color = color,
               ),
             ],

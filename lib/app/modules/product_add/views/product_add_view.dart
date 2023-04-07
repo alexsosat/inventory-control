@@ -31,6 +31,9 @@ class ProductAddView extends GetView<ProductAddController> {
             openDialogWindow(
               title:
                   "¿Deseas registrar el producto ${controller.nameController.text}?",
+              message: controller.isEditing
+                  ? "Estos valores sobreescribiran el producto ${controller.product!.name}"
+                  : null,
               type: DialogType.info,
               onConfirm: () => controller.saveProduct(),
               onCancel: () {},

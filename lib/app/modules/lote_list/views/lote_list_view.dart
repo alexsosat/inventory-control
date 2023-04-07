@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
+import 'package:inventory_control/app/modules/lote_list/views/widgets/lote_list_app_bar_actions.dart';
 
 import '../../../routes/app_pages.dart';
 import '../controllers/lote_list_controller.dart';
@@ -16,6 +17,11 @@ class LoteListView extends GetView<LoteListController> {
       appBar: AppBar(
         title: Text(controller.pageTitle.capitalize!),
         centerTitle: false,
+        actions: controller.storage != null
+            ? [
+                const LoteListPopUpMenu(),
+              ]
+            : null,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(80),
           child: LoteSearchSection(

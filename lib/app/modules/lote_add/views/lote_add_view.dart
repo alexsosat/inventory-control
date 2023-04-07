@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:inventory_control/app/modules/lote_add/views/widgets/lote_add_form.dart';
+import 'package:inventory_control/global/overlays/dialog/dialog.dart';
 
 import '../../../../global/overlays/snackbar.dart';
+import '../../../data/models/lote/lote.dart';
 import '../controllers/lote_add_controller.dart';
 
 class LoteAddView extends GetView<LoteAddController> {
@@ -33,7 +35,17 @@ class LoteAddView extends GetView<LoteAddController> {
               );
               return;
             }
-            controller.saveLote();
+
+            openDialogWindow(
+              title:
+                  "¿Deseas registrar el lote ${controller.loteUIDController.text}?",
+              message: controller.isEditing
+                  ? "Estos valores sobreescribiran el lote ${(Get.arguments as Lote).loteUID}"
+                  : null,
+              type: DialogType.info,
+              onConfirm: () => controller.saveLote(),
+              onCancel: () {},
+            );
           }
         },
         child: const Icon(Icons.save),

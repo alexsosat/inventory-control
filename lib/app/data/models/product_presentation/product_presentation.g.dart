@@ -120,12 +120,14 @@ const _ProductPresentationunitEnumValueMap = {
   'g': 1,
   'l': 2,
   'ml': 3,
+  'u': 4,
 };
 const _ProductPresentationunitValueEnumMap = {
   0: MeasureUnit.kg,
   1: MeasureUnit.g,
   2: MeasureUnit.l,
   3: MeasureUnit.ml,
+  4: MeasureUnit.u,
 };
 
 Id _productPresentationGetId(ProductPresentation object) {

@@ -12,7 +12,7 @@ class StorageAddView extends GetView<StorageAddController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Añadir Bodega'),
+        title: Text(!controller.isEditing ? 'Añadir Bodega' : 'Editar Bodega'),
         centerTitle: false,
       ),
       body: const SingleChildScrollView(
@@ -28,6 +28,9 @@ class StorageAddView extends GetView<StorageAddController> {
             openDialogWindow(
               title:
                   "¿Deseas registrar la bodega ${controller.nameController.text}?",
+              message: controller.isEditing
+                  ? "Estos valores sobreescribiran la bodega ${controller.storage!.name}"
+                  : null,
               type: DialogType.info,
               onConfirm: () => controller.saveStorage(),
               onCancel: () {},

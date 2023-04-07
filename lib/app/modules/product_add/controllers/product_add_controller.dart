@@ -12,6 +12,10 @@ import '../../../data/providers/product_provider.dart';
 import '../../home/controllers/home_controller.dart';
 
 class ProductAddController extends GetxController {
+  final Product? product;
+
+  ProductAddController(this.product);
+
   final ProductProvider _provider = ProductProvider();
 
   final formKey = GlobalKey<FormState>(debugLabel: '_AddProductFormState');
@@ -23,7 +27,7 @@ class ProductAddController extends GetxController {
   List<ProductPresentation> presentations = [];
   Color color = Colors.blueGrey;
 
-  bool isEditing = Get.arguments is Product;
+  bool get isEditing => product != null;
 
   @override
   void onInit() {
@@ -32,43 +36,45 @@ class ProductAddController extends GetxController {
   }
 
   void _initData() {
-    if (Get.arguments is Product) {
-      final product = Get.arguments as Product;
-      nameController.text = product.name;
-      descriptionController.text = product.description ?? "";
-      color = colorFromHex(product.hexColor) ?? Colors.blueGrey;
-      tags = product.tags.toList();
-      presentations = product.presentations.toList();
+    if (isEditing) {
+      nameController.text = product!.name;
+      descriptionController.text = product!.description ?? "";
+      color = colorFromHex(product!.hexColor) ?? Colors.blueGrey;
+      tags = product!.tags.toList();
+      presentations = product!.presentations.toList();
     }
   }
 
   saveProduct() async {
-    final product = Get.arguments is Product
-        ? Get.arguments as Product
-        : Product(
-            name: nameController.text,
-            description: descriptionController.text,
-            hexColor: colorToHex(color),
-          );
+    late Product addProduct;
 
-    product.name = nameController.text;
-    product.description = descriptionController.text;
-    product.hexColor = colorToHex(color);
+    if (isEditing) {
+      addProduct = product!;
+      addProduct.name = nameController.text;
+      addProduct.description = descriptionController.text;
+      addProduct.hexColor = colorToHex(color);
+    } else {
+      addProduct = Product(
+        name: nameController.text,
+        description: descriptionController.text,
+        hexColor: colorToHex(color),
+      );
+    }
 
-    product.tags.clear();
-    product.presentations.clear();
+    addProduct.tags.clear();
+    addProduct.presentations.clear();
 
     for (Tag tag in tags) {
-      product.tags.add(tag);
+      addProduct.tags.add(tag);
     }
 
     for (ProductPresentation presentation in presentations) {
-      product.presentations.add(presentation);
+      addProduct.presentations.add(presentation);
     }
 
     baseActionCall(
       loadingText: 'Registrando Producto...',
-      call: () => _provider.addProduct(product),
+      call: () => _provider.addProduct(addProduct),
       onSuccess: (_) => openDialogWindow(
         title: "Se registro el producto",
         type: DialogType.success,

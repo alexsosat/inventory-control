@@ -53,4 +53,11 @@ class StorageProvider {
       (lote) => lote.loteUID == loteUID,
     );
   }
+
+  /// Delete a storage from the database.
+  /// Args:
+  ///  storageId (int): The id of the storage to be deleted
+  Future<void> deleteStorage(int storageId) async => isar.writeTxn(
+        () => isar.storages.delete(storageId),
+      );
 }

@@ -1,4 +1,8 @@
 import 'package:get/get.dart';
+import 'package:inventory_control/app/modules/home/controllers/storage_list_controller.dart';
+import 'package:inventory_control/global/overlays/loading_dialog.dart';
+import 'package:inventory_control/global/overlays/snackbar.dart';
+import '../../../../global/overlays/dialog/dialog.dart';
 import '../models/lote_list_search_model.dart';
 
 import '../../../data/models/lote/lote.dart';
@@ -47,6 +51,42 @@ class LoteListController extends GetxController with StateMixin<List<Lote>> {
       }
     } catch (e) {
       change(null, status: RxStatus.error(e.toString()));
+    }
+  }
+
+  deleteStorage() async {
+    openLoadingDialog("Eliminando almacen");
+    try {
+      final storageLotes = await _storageProvider.getStorageLotes(storage!.id);
+
+      if (storageLotes.isNotEmpty) {
+        Get.back();
+        openDialogWindow(
+          title: "No se puede eliminar el almacen porque contiene lotes",
+          message: "Transfiere los lotes a otro almacen antes de eliminarlo",
+          type: DialogType.error,
+          onConfirm: () {},
+        );
+        return;
+      }
+
+      await _storageProvider.deleteStorage(storage!.id);
+      Get.back();
+
+      openDialogWindow(
+        title: "Almacen eliminado",
+        message: "El almacen ha sido eliminado correctamente",
+        type: DialogType.success,
+        onConfirm: () {
+          Get.find<StorageListController>().loadData();
+          Get.back();
+        },
+      );
+    } catch (e) {
+      snackbarMessage(
+        title: "Error",
+        message: e.toString(),
+      );
     }
   }
 
