@@ -147,21 +147,25 @@ class LoteListController extends GetxController with StateMixin<List<Lote>> {
   }
 
   _filterLotesByTags() {
+    final filteredLotes = _lotes.toList();
+
     for (Lote lote in _lotes) {
       final product = lote.product.value;
       if (product == null) {
-        _lotes.remove(lote);
+        filteredLotes.remove(lote);
         continue;
       }
       if (product.tags.isNotEmpty) {
         if (searchModel!.tags!.any((tag) => product.tags.contains(tag))) {
           continue;
         } else {
-          _lotes.remove(lote);
+          filteredLotes.remove(lote);
         }
       } else {
-        _lotes.remove(lote);
+        filteredLotes.remove(lote);
       }
     }
+
+    _lotes = filteredLotes;
   }
 }
